@@ -136,7 +136,8 @@ public class TrappedFrame extends JFrame {
         hpBar.setEditable(false);
         hungerBar.setEditable(false);
         timerBar.setEditable(false);
-
+        
+        input.addKeyListener(new EnterListener());
         submit.addActionListener(new ButtonListener());
 
         Container ct = this.getContentPane();
@@ -214,9 +215,25 @@ public class TrappedFrame extends JFrame {
         
     }
     
+    class EnterListener implements KeyListener {
+    	
+    	@Override
+    	public void keyPressed(KeyEvent ke) {
+    		if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
+    			submit.doClick();
+    		}
+    	}
+
+		@Override
+		public void keyReleased(KeyEvent ke) {}
+
+		@Override
+		public void keyTyped(KeyEvent ke) {}
+    }
 
     class ButtonListener implements ActionListener {
-        public ButtonListener() {}
+        
+        @Override
         public void actionPerformed(ActionEvent ae) {
             String inp = input.getText();
             try {
