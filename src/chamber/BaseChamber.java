@@ -132,10 +132,55 @@ public class BaseChamber {
 						pw.println( inventoryItem.GetNoSupplyMessage() );
 					}
 				}
+				else if ( inventoryItem.CheckIfItemName("cockroach") )
+				{
+					if ( inventoryItem.HasStock() )
+					{
+						inventoryItem.RemoveStock(1);
+						player.Status.RemoveHealth(50);
+						player.Status.AddHunger(30);
+						pw.println( inventoryItem.GetUseMessage() );
+					}
+					else
+					{
+						pw.println( inventoryItem.GetNoSupplyMessage() );
+					}
+				}
+				else if ( inventoryItem.CheckIfItemName("poop") )
+				{
+					if ( inventoryItem.HasStock() )
+					{
+						inventoryItem.RemoveStock(1);
+						pw.println( inventoryItem.GetUseMessage() );
+						GameState.PLAYER_DEAD = true;
+					}
+					else
+					{
+						pw.println( inventoryItem.GetNoSupplyMessage() );
+					}
+				}
+				else if ( inventoryItem.CheckIfItemName("berry") )
+				{
+					if ( inventoryItem.HasStock() )
+					{
+						inventoryItem.RemoveStock(1);
+						player.Status.AddHunger(30);
+						pw.println( inventoryItem.GetUseMessage() );
+					}
+					else
+					{
+						pw.println( inventoryItem.GetNoSupplyMessage() );
+					}
+				}
+				else
+				{
+					pw.println("Can't do that.");
+				}
 			}
 		} 
 		catch (Exception e) {} 
 		
+		pw.println();
 		return sw.toString();
 	}
 	

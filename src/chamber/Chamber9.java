@@ -3,8 +3,10 @@ package chamber;
 import java.util.List;
 
 import annotation.Chamber;
+import annotation.Locked;
 
 @Chamber
+@Locked(code="chamber9-000001")
 public class Chamber9 extends BaseChamber implements ChamberBehavior {
 
 	@Override

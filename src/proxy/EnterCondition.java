@@ -1,4 +1,4 @@
-package chamber;
+package proxy;
 
 public interface EnterCondition
 {

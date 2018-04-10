@@ -3,9 +3,11 @@ package chamber;
 import java.util.List;
 
 import annotation.Chamber;
+import annotation.Locked;
 
 @Chamber
-public class Chamber12 extends BaseChamber implements ChamberBehavior {
+@Locked(code="chamber8-000001")
+public class Chamber8 extends BaseChamber implements ChamberBehavior {
 
 	@Override
 	public String GetDescription() {
@@ -30,18 +32,5 @@ public class Chamber12 extends BaseChamber implements ChamberBehavior {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	@Override
-	public String Use(String item)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public String Take(String item)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 }

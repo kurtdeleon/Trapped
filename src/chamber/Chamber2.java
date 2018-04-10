@@ -17,7 +17,7 @@ public class Chamber2 extends BaseChamber implements ChamberBehavior {
 	private boolean hasInvestigated = false;
 	
 	private Item VINES = new Item( new String[] {"vine", "vines", "tough vines", "rope"}, 
-			2, false, "VINES (2) acquired.", "", 
+			3, false, "VINES (3) acquired.", "", 
 			"Small vines exist where you took the tough ones earlier." );
 	
 	private Item WHITE_MUSHROOM = new Item( new String[] {"white mushroom"}, 
@@ -64,6 +64,10 @@ public class Chamber2 extends BaseChamber implements ChamberBehavior {
 		if ( !VINES.HasStock() && !WHITE_MUSHROOM.HasStock() )
 		{
 			commands.remove("take");
+		}
+		if ( !VINES.HasStock() && hasExplored )
+		{
+			commands.remove("cut");
 		}
 		
 		return commands;
@@ -119,6 +123,9 @@ public class Chamber2 extends BaseChamber implements ChamberBehavior {
 			pw.println("Looking around, you find some hanging vines that look tough.");
 	        pw.println("A few meters from the vines, you see a white mushroom that looks quite... holy.");
 			pw.println("Its extreme whiteness captivates you.");
+			pw.println();
+			pw.println("Up north, you see a small cliff where some rocks are jutting forward.");
+			pw.println("Maybe it's time to test your rock-climbing skills.");
 			pw.println();
 		}
 		
@@ -185,7 +192,6 @@ public class Chamber2 extends BaseChamber implements ChamberBehavior {
 			{
 				pw.println("Cut these with what, your teeth?");
 				pw.println();
-				player.Inventory.SHARP_ROCK.AddStock(1);
 			}
 			
 			return sw.toString();
