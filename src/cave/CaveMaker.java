@@ -87,13 +87,14 @@ public class CaveMaker {
 		LoadChamberMethodsAndFields();
 		
 		currentChamber = chamberMap.get( Chamber1.class );
-		PrintDescription();
+//		PrintDescription();
 	}
 	
-	public void PrintDescription() throws Exception
+	public String PrintDescription() throws Exception
 	{
 		Method met = currentChamber.getClass().getDeclaredMethod("GetDescription");
-		System.out.println( met.invoke(currentChamber) );
+//		System.out.println( met.invoke(currentChamber) );
+		return (String) met.invoke(currentChamber);
 		
 		/*Method met2 = currentChamber.getClass().getDeclaredMethod("GetCommands");
 		Method met3 = currentChamber.getClass().getDeclaredMethod("GetRoomItems");
@@ -101,10 +102,11 @@ public class CaveMaker {
 		System.out.println( met3.invoke(currentChamber) );*/
 	}
 	
-	public void Move(String direction)
+	public String Move(String direction)
 	{
 		Class<?> roomClass = currentChamber.getClass();
 		boolean roomFound = false;
+		String ret = "";
 		
 		try
 		{
@@ -125,7 +127,7 @@ public class CaveMaker {
 						}
 						else
 						{
-							System.out.println( fieldDirection.accessMessage() );
+							ret = fieldDirection.accessMessage();
 						}
 						
 						roomFound = true;
@@ -135,18 +137,22 @@ public class CaveMaker {
 			}
 			
 			if (!roomFound) {
-				System.out.println("There's no path there... unless you can walk through walls. Which you can't.");
+				ret = "There's no path there... unless you can walk through walls. Which you can't.";
 			}
+			
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
+		return ret;
 	}
 	
-	public void Perform(String action, String subject)
+	public String Perform(String action, String subject)
 	{
 		Class<?> clazz = currentChamber.getClass();
+		
+		String ret = "";
 		
 		try
 		{
@@ -161,12 +167,12 @@ public class CaveMaker {
 					{
 						if ( subject != null && method.getParameterCount() > 0 )
 						{
-							System.out.println(method.invoke(currentChamber, subject));
+							ret = (String) method.invoke(currentChamber, subject);
 							methodFound = true;
 						}
 						else if ( subject == null && method.getParameterCount() == 0 )
 						{
-							System.out.println(method.invoke(currentChamber));
+							ret = (String) method.invoke(currentChamber);
 							methodFound = true;
 						}
 
@@ -175,13 +181,14 @@ public class CaveMaker {
 				}
 			}
 			if (!methodFound) {
-				System.out.println("Invalid command!");
+				ret = "Invalid command!";
 			}
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
+		return ret;
 	}
 	
 }

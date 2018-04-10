@@ -7,6 +7,7 @@ import java.util.List;
 import annotation.Chamber;
 import annotation.Command;
 import annotation.Direction;
+import gui.ChamberEventListener;
 import player.Item;
 
 @Chamber
@@ -31,7 +32,7 @@ public class Chamber1 extends BaseChamber implements ChamberBehavior {
 	private Chamber9 east;
 	@Direction(direction="west", accessible=true, accessMessage="")
 	private Chamber2 west;
-
+	
 	@Override
 	public String GetDescription() {
 		StringWriter sw = new StringWriter();
