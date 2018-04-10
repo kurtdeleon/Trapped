@@ -39,7 +39,7 @@ public class Chamber7 extends BaseChamber implements ChamberBehavior {
     	
 		if (hasAccessed)
 		{
-			pw.println("You are now in CHAMBER SEVEN.");
+			pw.println("You are now in CHAMBER 7.");
 	        pw.println();
 		}
 		else

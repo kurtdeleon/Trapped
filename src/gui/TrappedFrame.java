@@ -39,7 +39,6 @@ public class TrappedFrame extends JFrame {
 		cur.setAccessible(true);
 		ChamberBehavior bc = (ChamberBehavior) cur.get(cv);
 		String desc = bc.GetDescription();
-//		System.out.println("got this description: " +desc);
 		if (desc.startsWith("You are now")) {
 			updateLocationLabel(desc);
 		} else 
@@ -117,9 +116,9 @@ public class TrappedFrame extends JFrame {
     }
     
     public void layoutFrame() {
-    	locationLabel = new JLabel("You are in CHAMBER ONE.");
-        hpBar = new JTextField("hp bar goes here");
-        hungerBar = new JTextField("hunger bar goes here");
+    	locationLabel = new JLabel("You are now in CHAMBER 1.");
+        hpBar = new JTextField("HP:");
+        hungerBar = new JTextField("Hunger:");
         inventoryLabel = new JLabel("Your Inventory");
         inventoryList = new JList<String>(new String[]{"inventory", "goes here"});
         timerBar = new JTextField("timer goes here");
