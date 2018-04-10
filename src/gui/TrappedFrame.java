@@ -46,6 +46,7 @@ public class TrappedFrame extends JFrame {
 			updateOutput(desc);
 		updateCmdsList(bc.GetCommands().stream().toArray(String[]::new));
 		updateRoomItemsList(bc.GetRoomItems().stream().toArray(String[]::new));
+		updateInventoryList(bc.GetInventoryList().stream().toArray(String[]::new));
 		updateHpBar(player.Status.GetHealth());
 		updateHungerBar(player.Status.GetHunger());
     }
@@ -99,7 +100,7 @@ public class TrappedFrame extends JFrame {
     public void updateOutput(String newText) {
 //    	System.err.println("called: updateOutput " + newText);
     	String old = output.getText();
-        output.setText(old + "\n" + newText);
+        output.setText(old + newText);
     }
     public void updateLocationLabel(String newText) {
         locationLabel.setText(newText);
@@ -116,13 +117,13 @@ public class TrappedFrame extends JFrame {
     }
     
     public void layoutFrame() {
-    	locationLabel = new JLabel("You are in Room xxx");
+    	locationLabel = new JLabel("You are in CHAMBER ONE.");
         hpBar = new JTextField("hp bar goes here");
         hungerBar = new JTextField("hunger bar goes here");
         inventoryLabel = new JLabel("Your Inventory");
         inventoryList = new JList<String>(new String[]{"inventory", "goes here"});
         timerBar = new JTextField("timer goes here");
-        output = new JTextArea("game output goes here");
+        output = new JTextArea("");
         input = new JTextField("", 50);
         submit = new JButton("Submit");
         cmdsLabel = new JLabel("Available Commands");
@@ -145,6 +146,7 @@ public class TrappedFrame extends JFrame {
 
         left = new JPanel();
         left.setLayout(new GridBagLayout());
+        left.setPreferredSize(new Dimension(200,500));
         left.setBorder(new EmptyBorder(0, 0, 0, 5));
         GridBagConstraints c = new GridBagConstraints();
 
@@ -164,7 +166,7 @@ public class TrappedFrame extends JFrame {
         // c.weighty = 0.5;
         left.add(inventoryLabel, c);
         c.gridy = 5;
-        c.ipadx = 100;
+//        c.ipadx = 100;
         c.ipady = 120;
         c.weighty = 0.0;
         inventoryList.setBorder(new EmptyBorder(5,5,5,5));
@@ -207,6 +209,7 @@ public class TrappedFrame extends JFrame {
         c2.gridy = 3;
         c2.ipady = 120;
         roomItemsList.setBorder(new EmptyBorder(5,5,5,5));
+        roomItemsList.setPreferredSize(new Dimension(100,120));
         right.add(new JScrollPane(roomItemsList), c2);
         mainPanel.add(right, "East");
 

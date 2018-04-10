@@ -48,6 +48,11 @@ public class Chamber5 extends BaseChamber implements ChamberBehavior {
 	public List<String> GetRoomItems() {
 		return super.GetRoomItems();
 	}
+	
+	@Override
+	public List<String> GetInventoryList() {
+		return super.GetInventoryList();
+	}
 
 	@Override
 	@Command(command="explore")

@@ -67,6 +67,11 @@ public class Chamber9 extends BaseChamber implements ChamberBehavior {
 	}
 
 	@Override
+	public List<String> GetInventoryList() {
+		return super.GetInventoryList();
+	}
+
+	@Override
 	@Command(command="explore")
 	public String Explore() {
 		StringWriter sw = new StringWriter();

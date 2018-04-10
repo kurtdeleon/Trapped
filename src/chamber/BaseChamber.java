@@ -69,6 +69,30 @@ public class BaseChamber {
 		return roomItems;
 	}
 	
+	public List<String> GetInventoryList()
+    {
+        List<String> inventoryList = new ArrayList<String>();
+       
+        for ( Field fld : player.Inventory.class.getDeclaredFields() )
+        {
+            if ( fld.getType().equals(Item.class) )
+            {
+                try
+                {
+                    fld.setAccessible(true);
+                    Item tempItem = (Item) fld.get(null);
+                    if ( tempItem.HasStock() )
+                    {
+                    	inventoryList.add( tempItem.GetMainItemName() + " (" + tempItem.GetStock() + ")" );
+                    }
+                   
+                }
+                catch (Exception e) {}
+            }
+        }
+        return inventoryList;
+    }
+	
 	@Command(command="use")
 	public String Use(String item)
 	{

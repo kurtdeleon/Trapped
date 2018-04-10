@@ -42,6 +42,11 @@ public class Chamber8 extends BaseChamber implements ChamberBehavior {
 	}
 
 	@Override
+	public List<String> GetInventoryList() {
+		return super.GetInventoryList();
+	}
+	
+	@Override
 	@Command(command="explore")
 	public String Explore() {
 		return "There's not much to explore. It is just a small island, after all.";
