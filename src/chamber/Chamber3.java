@@ -121,7 +121,7 @@ public class Chamber3 extends BaseChamber implements ChamberBehavior {
     	
 		if ( player.Inventory.VINES.CheckIfItemName(item) )
 		{
-			if ( player.Inventory.VINES.HasStock() && !GameState.CHAMBER7_OPEN )
+			if ( player.Inventory.VINES.HasStock() && !GameState.CHAMBER6_OPEN )
 			{
 				if ( !hasTriedThrowing )
 				{
@@ -138,7 +138,7 @@ public class Chamber3 extends BaseChamber implements ChamberBehavior {
 				Random rand = new Random();
 				if ( (rand.nextInt(100) + 1) > 80 )
 				{
-					GameState.CHAMBER7_OPEN = true;
+					GameState.CHAMBER6_OPEN = true;
 					pw.println("YOU DID IT!");
 					pw.println("Jumping for joy, you did not notice that there was poop in front of you.");
 					pw.println("You slipped on it, but there's still a good chunk of it.");
@@ -149,7 +149,7 @@ public class Chamber3 extends BaseChamber implements ChamberBehavior {
 					pw.println("Try again.");
 				}
 			}
-			else if ( player.Inventory.VINES.HasStock() && GameState.CHAMBER7_OPEN )
+			else if ( player.Inventory.VINES.HasStock() && GameState.CHAMBER6_OPEN )
 			{
 				pw.println("You know the vines from earlier can be used, but you don't have any.");
 			}
@@ -212,7 +212,7 @@ public class Chamber3 extends BaseChamber implements ChamberBehavior {
 			return "You should EXPLORE the chamber first.\n";
 		}
 		
-		if ( COCKROACH.CheckIfItemName(item) && GameState.CHAMBER7_OPEN )
+		if ( COCKROACH.CheckIfItemName(item) && GameState.CHAMBER6_OPEN )
 		{
 	    	switch ( hasTriedToTakePoop )
 	    	{

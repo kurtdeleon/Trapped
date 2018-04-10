@@ -97,6 +97,13 @@ public class Inventory {
 			"", 
 			"");
 	
+	public static Item LEAVES = new Item( new String[] {"leaf", "leaves"}, 
+			0, 
+			true, 
+			"", 
+			"You apply the leaves on your wounds. You feel slightly better.", 
+			"You don't have extra leaves anymore.");
+	
 	public static Item GetItem(String item) throws IllegalArgumentException, IllegalAccessException
 	{
 		for ( Field fld : player.Inventory.class.getDeclaredFields() )

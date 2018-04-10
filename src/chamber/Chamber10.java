@@ -5,7 +5,7 @@ import java.util.List;
 import annotation.Chamber;
 
 @Chamber
-public class Chamber11 extends BaseChamber implements ChamberBehavior {
+public class Chamber10 extends BaseChamber implements ChamberBehavior {
 
 	@Override
 	public String GetDescription() {

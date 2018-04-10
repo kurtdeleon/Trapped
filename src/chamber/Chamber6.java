@@ -18,7 +18,7 @@ public class Chamber6 extends BaseChamber implements ChamberBehavior {
 	private Item BERRY = new Item( new String[] {"berry", "berries", "strawberries", "fruit"}, 
 			3, false, "BERRY (3) acquired.", "", 
 			"You already picked the berries earlier." );
-
+	
 	@Direction(direction="south", accessible=true, accessMessage="")
 	private Chamber3 south;
 	@Direction(direction="west", accessible=true, accessMessage="")

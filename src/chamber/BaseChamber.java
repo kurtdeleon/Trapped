@@ -118,6 +118,19 @@ public class BaseChamber {
 						pw.println( inventoryItem.GetNoSupplyMessage() );
 					}
 				}
+				else if ( inventoryItem.CheckIfItemName("leaf") )
+				{
+					if ( inventoryItem.HasStock() )
+					{
+						inventoryItem.RemoveStock(1);
+						player.Status.AddHealth(10);
+						pw.println( inventoryItem.GetUseMessage() );
+					}
+					else
+					{
+						pw.println( inventoryItem.GetNoSupplyMessage() );
+					}
+				}
 				else if ( inventoryItem.CheckIfItemName("white mushroom") )
 				{
 					if ( inventoryItem.HasStock() )

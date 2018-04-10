@@ -23,6 +23,10 @@ public class Chamber7 extends BaseChamber implements ChamberBehavior {
 			1, false, "JADE (1) acquired.", "", 
 			"You have already taken the JADE you found.");
 	
+	private Item SHARP_ROCK = new Item( new String[] {"sharp rock", "sharp", "rock", "knife"}, 
+			1, false, "SHARP ROCK (1) acquired", "",
+			"The rest of the rocks here aren't sharp at all. You decide to ignore them.");
+	
 	@Direction(direction="north", accessible=false, accessMessage="Side of the cliff is too slippery to climb on to.\nMust find another way to get there...")
 	private Chamber6 north;
 	@Direction(direction="east", accessible=true, accessMessage="")
@@ -56,7 +60,7 @@ public class Chamber7 extends BaseChamber implements ChamberBehavior {
 	@Override
 	public List<String> GetCommands() {
 		List<String> commands = super.GetCommands();
-		if ( !CLAY_POT.HasStock() && !JADE.HasStock() )
+		if ( !CLAY_POT.HasStock() && !JADE.HasStock() && !SHARP_ROCK.HasStock() )
 		{
 			commands.remove("take");
 		}
@@ -85,6 +89,12 @@ public class Chamber7 extends BaseChamber implements ChamberBehavior {
 			hasExplored = true;
 			pw.println("You stumble upon a clay pot that's surprisingly well-made.");
 	        pw.println("Looking inside, you find a small jade piece.");
+			pw.println();
+			pw.println("You walk forward a bit more and accidentally trip on something.");
+			pw.println("Agh, it was a SHARP ROCK!");
+			pw.println("You now have a medium-sized cut near your ankle.");
+			pw.println("You took a bit of damage there.");
+			player.Status.RemoveHealth(15);
 			pw.println();
 		}
 		

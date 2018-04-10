@@ -92,8 +92,6 @@ public class CaveMaker {
 								Class<?> dynamicType = loaded.getLoaded();
 								
 								chamberInstance = dynamicType.newInstance();
-								
-								System.out.println("A locked room of type Room5 has been created.");
 							}
 						}
 						catch (Exception e){ System.out.println("A locked room has been detected."); }
@@ -105,6 +103,7 @@ public class CaveMaker {
 			}
 			catch (Exception e){}
 		}
+		System.out.println();
 	}
 	
 	public void LoadChamberMethodsAndFields() throws IllegalArgumentException, IllegalAccessException
