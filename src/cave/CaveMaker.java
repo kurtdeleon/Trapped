@@ -196,6 +196,7 @@ public class CaveMaker {
 										
 										// REPLACE PROXY IN CHAMBERMAP
 										chamberMap.put(fieldClass, currentChamber); 
+										PrintDescription();
 									}
 									else 
 									{

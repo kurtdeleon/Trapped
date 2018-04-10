@@ -46,7 +46,6 @@ public class Chamber3 extends BaseChamber implements ChamberBehavior {
 		else
 		{
 			hasAccessed = true;
-	        pw.println("You hear running water to your left.");
 	        pw.println("You feel tired from all the rock-climbing, but you made it.");
 	        pw.println();
 	        pw.println("After a while, you notice that you feel sick to your stomach.");
@@ -151,7 +150,7 @@ public class Chamber3 extends BaseChamber implements ChamberBehavior {
 			}
 			else if ( player.Inventory.VINES.HasStock() && GameState.CHAMBER6_OPEN )
 			{
-				pw.println("You know the vines from earlier can be used, but you don't have any.");
+				pw.println("There's already a vine hanging from the hole. No need for that.");
 			}
 			else
 			{
@@ -160,10 +159,7 @@ public class Chamber3 extends BaseChamber implements ChamberBehavior {
 		}
 		else
 		{
-			pw.println("You throw it.");
-			pw.println("Nothing happens.");
-			pw.println("It almost broke, by the way.");
-			pw.println("Stop that.");
+			pw.println("Throw what?");
 		}
 		
 		pw.println();
@@ -212,7 +208,7 @@ public class Chamber3 extends BaseChamber implements ChamberBehavior {
 			return "You should EXPLORE the chamber first.\n";
 		}
 		
-		if ( COCKROACH.CheckIfItemName(item) && GameState.CHAMBER6_OPEN )
+		if ( POOP.CheckIfItemName(item) && GameState.CHAMBER6_OPEN )
 		{
 	    	switch ( hasTriedToTakePoop )
 	    	{
@@ -225,6 +221,7 @@ public class Chamber3 extends BaseChamber implements ChamberBehavior {
 	    	case 3:
 	    		return "...please stop...";
 	    	}
+	    	hasTriedToTakePoop++;
 		}
 
 		return super.Take(item);

@@ -207,7 +207,7 @@ public class BaseChamber {
 			Item roomItem = GetItem( item );
 			Item inventoryItem = player.Inventory.GetItem( item );
 			
-			if ( roomItem == null && inventoryItem == null )
+			if ( roomItem == null || inventoryItem == null )
 			{
 				pw.println("Item not found in room.");
 				pw.println();

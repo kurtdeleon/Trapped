@@ -19,8 +19,8 @@ public class Chamber4 extends BaseChamber implements ChamberBehavior {
 			1, false, "BROKEN BOAT (1) acquired.", "", 
 			"You have already taken the broken boat." );
 	
-	private Item WATER = new Item( new String[] {"broken boat", "broken vessel", "broken ship", "broken watercraft"}, 
-			1, false, "BROKEN BOAT (1) acquired.", "", 
+	private Item WATER = new Item( new String[]  {"water", "liquid"}, 
+			1, false, "WATER (1) acquired.", "", 
 			"You have already taken the broken boat." );
 	
 	@Direction(direction="north", accessible=true, accessMessage="")
@@ -30,7 +30,7 @@ public class Chamber4 extends BaseChamber implements ChamberBehavior {
 	@Direction(direction="west", accessible=true, accessMessage="")
 	private Chamber3 west;
 	@Direction(direction="east", accessible=true, accessMessage="")
-	private Chamber1 east;
+	private Chamber8 east;
 	
 	@Override
 	public String GetDescription() {
@@ -120,23 +120,29 @@ public class Chamber4 extends BaseChamber implements ChamberBehavior {
     	
 		if ( WATER.CheckIfItemName(item) )
 		{
-			if ( player.Inventory.CLAY_POT.HasStock() )
+			if ( player.Inventory.CLAY_POT.HasStock() && player.Inventory.WATER.GetStock() < 1 )
 			{
 				pw.println("You use the pot to fetch some of the water.");
 				pw.println("Doesn't seem drinkable, but it might be of use.");
 				pw.println(super.Take(item));
 				WATER.AddStock(1);
 			}
+			else if ( player.Inventory.CLAY_POT.HasStock() && player.Inventory.WATER.GetStock() >= 1 )
+			{
+				pw.println("Your pot's full.");
+			}
 			else
 			{
 				pw.println("You need something to store the water in first.");
 				pw.println();
 			}
-			
-			return sw.toString();
+		}
+		else
+		{
+			pw.println(super.Take(item));
 		}
 		
-		return super.Take(item);
+		return sw.toString();
 	}
 	
 	@Command(command="attach")

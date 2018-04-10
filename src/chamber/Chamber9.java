@@ -103,7 +103,28 @@ public class Chamber9 extends BaseChamber implements ChamberBehavior {
 		{
 			return "You should EXPLORE the chamber first.\n";
 		}
+		
+		if ( VINES.CheckIfItemName(item) && VINES.HasStock() )
+		{
+			StringWriter sw = new StringWriter();
+	    	PrintWriter pw = new PrintWriter(sw);
 
+	    	if ( player.Inventory.SHARP_ROCK.HasStock() )
+			{
+	    		pw.println("Shouldn't you CUT the vines instead?");
+		    	pw.println();
+			}
+			else
+			{
+				pw.println("You pull on the vines with your entire weight but they didn't budge.");
+		    	pw.println("The vines are too tough to be just pulled from its roots.");
+		    	pw.println("Maybe I could CUT these with something.");
+		    	pw.println();
+			}
+	    	
+	    	return sw.toString();
+		}
+		
 		return super.Take(item);
 	}
 	

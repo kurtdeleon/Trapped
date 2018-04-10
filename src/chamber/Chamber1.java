@@ -103,7 +103,6 @@ public class Chamber1 extends BaseChamber implements ChamberBehavior {
 	        pw.println();
 			pw.println("Room items have been updated. Use TAKE command to take items.");
 			pw.println();
-			GameState.CHAMBER9_OPEN = true;
 		}
 		
 		return sw.toString();
@@ -121,23 +120,42 @@ public class Chamber1 extends BaseChamber implements ChamberBehavior {
     	
 		if ( player.Inventory.WATER.CheckIfItemName(item) && !GameState.CHAMBER9_OPEN )
 		{
-	    	switch ( timesPlayerPouredWater )
-	    	{
-	    	case 0:
-	    		pw.println("Looks like it's kinda working. Might need a few more times for it to break.");
-	    	case 1:
-	    		pw.println("Getting there... pour more water into it!");
-	    	case 2:
-	    		pw.println("It's crumbling! Just a little more!");
-	    	case 3:
-	    		GameState.CHAMBER9_OPEN = true;
-	    	}
-	    	timesPlayerPouredWater++;
+			if ( player.Inventory.WATER.HasStock() )
+			{
+				switch ( timesPlayerPouredWater )
+		    	{
+		    	case 0:
+		    		pw.println("Looks like it's kinda working. Might need a few more times for it to break.");
+		    		break;
+		    	case 1:
+		    		pw.println("Getting there... pour more water into it!");
+		    		break;
+		    	case 2:
+		    		pw.println("It's crumbling! Just a little more!");
+		    		break;
+		    	case 3:
+		    		GameState.CHAMBER9_OPEN = true;
+		    	}
+		    	timesPlayerPouredWater++;
+		    	player.Inventory.WATER.RemoveStock(1);
+			}
+			else
+			{
+				pw.println("Doesn't seem like you have anything to pour on the wall.");
+			}
 		}
 		else if ( player.Inventory.WATER.CheckIfItemName(item) && GameState.CHAMBER9_OPEN )
 		{
-			pw.println("You pour water but it's already open. So nothing really happens.");
-			pw.println("You just made a mess, really.");
+			if ( player.Inventory.WATER.HasStock() )
+			{
+				pw.println("You pour water but it's already open. So nothing really happens.");
+				pw.println("You just made a mess, really.");
+			}
+			else
+			{
+				pw.println("The chamber's already open.");
+				pw.println("Plus, you don't really have anything to pour on the wall.");
+			}
 		}
 		else
 		{
