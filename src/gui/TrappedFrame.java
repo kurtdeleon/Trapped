@@ -9,6 +9,7 @@ import java.util.*;
 
 import cave.CaveMaker;
 import chamber.BaseChamber;
+import chamber.ChamberBehavior;
 
 public class TrappedFrame extends JFrame {
 
@@ -25,18 +26,108 @@ public class TrappedFrame extends JFrame {
     CaveMaker cave;
 
     public TrappedFrame() throws Exception {
-        locationLabel = new JLabel("You are in Room xxx");
+        layoutFrame();
+        
+        cave = new CaveMaker();
+		cave.Load();
+		updateAll(cave);
+    }
+    
+    public void updateAll(CaveMaker cv) throws Exception {
+		Class cm = Class.forName("cave.CaveMaker");
+		Field cur = cm.getDeclaredField("currentChamber");
+		cur.setAccessible(true);
+		ChamberBehavior bc = (ChamberBehavior) cur.get(cv);
+		String desc = bc.GetDescription();
+//		System.out.println("got this description: " +desc);
+		if (desc.startsWith("You are now")) {
+			updateLocationLabel(desc);
+		} else 
+			updateOutput(desc);
+		updateCmdsList(bc.GetCommands().stream().toArray(String[]::new));
+		updateRoomItemsList(bc.GetRoomItems().stream().toArray(String[]::new));
+		updateHpBar(player.Status.GetHealth());
+		updateHungerBar(player.Status.GetHunger());
+    }
+
+    public void sendInput(String inputCmd) throws Exception {
+    	
+    	String inp = input.getText();
+    	if ( inp.equalsIgnoreCase("exit") )
+		{
+    		JOptionPane.showMessageDialog(null, "TRAPPED is now closing. Thanks for playing.\n- Kurt de Leon & Brian Guadalupe");
+    		System.exit(0);
+		}
+		else
+		{
+			int index = inp.indexOf(' ');
+			
+			if (index > -1)
+			{
+				String action = inp.substring( 0, index );
+				String subject = inp.substring( index + 1 );
+				
+				if ( action.equalsIgnoreCase("go") || action.equalsIgnoreCase("move") )
+				{
+					System.err.println(inp);
+					updateOutput(cave.Move( subject ));
+					updateAll(cave);
+				}
+				else 
+				{
+					updateOutput(cave.Perform( action, subject ));
+					updateAll(cave);
+				}
+			}
+			else
+			{
+				updateOutput(cave.Perform( inp, null ));
+				updateAll(cave);
+			}
+		}
+    }
+
+    public void updateTimerBar(String newText) {
+        timerBar.setText(newText);
+    }
+    public void updateHpBar(int newText) {
+        hpBar.setText("HP: " + newText);
+    }
+    public void updateHungerBar(int newText) {
+        hungerBar.setText("Hunger: " + newText);
+    }
+    public void updateOutput(String newText) {
+//    	System.err.println("called: updateOutput " + newText);
+    	String old = output.getText();
+        output.setText(old + "\n" + newText);
+    }
+    public void updateLocationLabel(String newText) {
+        locationLabel.setText(newText);
+    }
+
+    public void updateInventoryList(String[] items) {
+        inventoryList.setListData(items);
+    }
+    public void updateCmdsList(String[] items) {
+        cmdsList.setListData(items);
+    }
+    public void updateRoomItemsList(String[] items) {
+        roomItemsList.setListData(items);
+    }
+    
+    public void layoutFrame() {
+    	locationLabel = new JLabel("You are in Room xxx");
         hpBar = new JTextField("hp bar goes here");
         hungerBar = new JTextField("hunger bar goes here");
         inventoryLabel = new JLabel("Your Inventory");
         inventoryList = new JList<String>(new String[]{"inventory", "goes here"});
         timerBar = new JTextField("timer goes here");
         output = new JTextArea("game output goes here");
-        input = new JTextField("input goes here", 50);
+        input = new JTextField("", 50);
         submit = new JButton("Submit");
         cmdsLabel = new JLabel("Available Commands");
         cmdsList = new JList<String>(new String[]{"available","commands","go here"});
-        roomItemsLabel = new JLabel("Room Items");
+        roomItemsLabel = new JLabel("Chamber Items");
         roomItemsList = new JList<String>(new String[]{"room items","go here"});
 
         ImageIcon im = new ImageIcon("trapped_map.png");
@@ -87,7 +178,7 @@ public class TrappedFrame extends JFrame {
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBorder(new EmptyBorder(10, 0, 10, 10));
         output.setBorder(new EmptyBorder(10, 10, 10, 10));
-        mainPanel.add(output, "Center");
+        mainPanel.add(new JScrollPane(output), "Center");
 
         JPanel bottom = new JPanel();
         bottom.setLayout(new FlowLayout());
@@ -121,90 +212,8 @@ public class TrappedFrame extends JFrame {
         center.add(mainPanel, "Center");
         ct.add(center, "Center");
         
-        
-        cave = new CaveMaker();
-		cave.Load();
-		updateAll(cave);
     }
     
-    public void updateAll(CaveMaker cv) throws Exception {
-    	updateOutput(cv.PrintDescription());
-		Class cm = Class.forName("cave.CaveMaker");
-		Field cur = cm.getDeclaredField("currentChamber");
-		cur.setAccessible(true);
-		BaseChamber bc = (BaseChamber) cur.get(cv);
-		updateCmdsList(bc.GetCommands().stream().toArray(String[]::new));
-		updateRoomItemsList(bc.GetRoomItems().stream().toArray(String[]::new));
-    }
-
-    public void sendInput(String inputCmd) throws Exception {
-        // To-do: feed this to CaveMaker.perform or something
-//        updateInventoryList(new String[]{"updated", "inventory", "list", "with", "even", "more", "items!!!", "1", "2", "69"});
-//        updateTimerBar("time is ticking...");
-//        updateOutput("something happened...");
-//        updateHpBar("HP: OVER 9000");
-//        updateLocationLabel("You are now in room 12");
-//        JOptionPane.showMessageDialog(null, "Got this text from the input: " + inputCmd);
-    	
-    	String inp = input.getText();
-    	if ( inp.equalsIgnoreCase("exit") )
-		{
-			System.out.println("\nTRAPPED is now closing. Thanks for playing.");
-			System.out.println("-Kurt de Leon & Brian Guadalupe");
-//			break;
-		}
-		else
-		{
-			int index = inp.indexOf(' ');
-			
-			if (index > -1)
-			{
-				String action = inp.substring( 0, index );
-				String subject = inp.substring( index + 1 );
-				
-				if ( action.equalsIgnoreCase("go") || action.equalsIgnoreCase("move") )
-				{
-					updateAll(cave);
-					updateOutput(cave.Move( subject ));
-				}
-				else 
-				{
-					updateAll(cave);
-					updateOutput(cave.Perform( action, subject ));
-				}
-			}
-			else
-			{
-				updateOutput(cave.Perform( inp, null ));
-			}
-		}
-    }
-
-    public void updateTimerBar(String newText) {
-        timerBar.setText(newText);
-    }
-    public void updateHpBar(String newText) {
-        hpBar.setText(newText);
-    }
-    public void updateHungerBar(String newText) {
-        hungerBar.setText(newText);
-    }
-    public void updateOutput(String newText) {
-        output.setText(newText);
-    }
-    public void updateLocationLabel(String newText) {
-        locationLabel.setText(newText);
-    }
-
-    public void updateInventoryList(String[] items) {
-        inventoryList.setListData(items);
-    }
-    public void updateCmdsList(String[] items) {
-        cmdsList.setListData(items);
-    }
-    public void updateRoomItemsList(String[] items) {
-        roomItemsList.setListData(items);
-    }
 
     class ButtonListener implements ActionListener {
         public ButtonListener() {}
@@ -212,6 +221,7 @@ public class TrappedFrame extends JFrame {
             String inp = input.getText();
             try {
 				sendInput(inp);
+				input.setText("");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

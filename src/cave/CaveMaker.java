@@ -192,22 +192,23 @@ public class CaveMaker {
 								if (tempRoom.getClass().getSuperclass() == Object.class)
 								{
 									currentChamber = chamberMap.get(fieldClass);
-									PrintDescription();
+									ret = PrintDescription();
 								}
 								else
 								{
 									if ( ((EnterCondition) tempRoom).canEnter() ) 
 									{
-										System.out.println(((EnterCondition) tempRoom).enterMessage());
+										ret = ((EnterCondition) tempRoom).enterMessage();
 										currentChamber = tempRoom.getClass().getSuperclass().newInstance();
 										
 										// REPLACE PROXY IN CHAMBERMAP
 										chamberMap.put(fieldClass, currentChamber); 
-										PrintDescription();
+//										System.err.println("d " + ret);
+										ret = PrintDescription();
 									}
 									else 
 									{
-										System.out.println(((EnterCondition) tempRoom).unableToEnterMessage());
+										ret = ((EnterCondition) tempRoom).unableToEnterMessage();
 									}
 								}
 								
@@ -215,7 +216,7 @@ public class CaveMaker {
 							else
 							{
 								currentChamber = chamberMap.get(fieldClass);
-								PrintDescription();
+								ret = PrintDescription();
 							}
 						}
 						else
