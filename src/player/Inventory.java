@@ -119,4 +119,16 @@ public class Inventory {
     	}
 		return null;
 	}
+	
+	public static void EmptyBackpack() throws IllegalArgumentException, IllegalAccessException
+	{
+		for ( Field fld : player.Inventory.class.getDeclaredFields() )
+    	{
+    		if ( fld.getType().equals(Item.class) ) {
+    			Item tempItem = (Item) fld.get(null);
+    			
+    			tempItem.SetStock(0);
+    		}
+    	}
+	}
 }

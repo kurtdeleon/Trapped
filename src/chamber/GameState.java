@@ -9,6 +9,8 @@ public class GameState
 	public static boolean CHAMBER8_SHORTCUT_OPEN = false;
 	public static boolean CHAMBER9_OPEN = false;
 	
+	public static boolean CHAMBER11_OPEN = false;
+	
 	public GameState()
 	{
 		
