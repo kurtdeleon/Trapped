@@ -7,7 +7,6 @@ import java.util.List;
 import annotation.Chamber;
 import annotation.Command;
 import annotation.Direction;
-import gui.ChamberEventListener;
 import player.Item;
 
 @Chamber
