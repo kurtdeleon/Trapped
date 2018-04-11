@@ -1,10 +1,10 @@
 package proxy;
 
 import annotation.Chamber;
-import annotation.Locked;
+import annotation.Interceptor;
 
 @Chamber
-@Locked(code="chamber11-000001")
+@Interceptor(code="chamber11-000001")
 public class Interceptor_Chamber11 {
 	public static boolean canEnter()
 	{

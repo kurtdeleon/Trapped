@@ -18,16 +18,27 @@ public class Chamber8 extends BaseChamber implements ChamberBehavior {
 	@Direction(direction="south", accessible=true, accessMessage="")
 	private Chamber10 south;
 	
+	private boolean hasAccessed = false;
+	
 	@Override
 	public String GetDescription() {
 		StringWriter sw = new StringWriter();
     	PrintWriter pw = new PrintWriter(sw);
     	
-	    pw.println("You enter a small island with pretty much nothing in it.");
-	    pw.println("Huh... this kinda seems like the small room before a boss fight.");
-	    pw.println("You chuckle to yourself.");
-	    pw.println();
-		
+    	if (hasAccessed)
+		{
+			pw.println("You are now in CHAMBER 8.");
+	        pw.println();
+		}
+		else
+		{
+			hasAccessed = true;
+			pw.println("You enter a small island with pretty much nothing in it.");
+		    pw.println("Huh... this kinda seems like the small room before a boss fight.");
+		    pw.println("You chuckle to yourself.");
+		    pw.println();
+		}
+    	
         return sw.toString();
 	}
 
