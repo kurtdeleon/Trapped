@@ -31,6 +31,7 @@ public class TrappedFrame extends JFrame {
         cave = new CaveMaker();
 		cave.Load();
 		updateAll(cave);
+		
     }
     
     public void updateAll(CaveMaker cv) throws Exception {
@@ -38,10 +39,13 @@ public class TrappedFrame extends JFrame {
 		Field cur = cm.getDeclaredField("currentChamber");
 		cur.setAccessible(true);
 		ChamberBehavior bc = (ChamberBehavior) cur.get(cv);
+		
+		String[] room = bc.getClass().getName().split("r");
+		System.out.println(Arrays.toString(room));
+		updateLocationLabel("You are now in Chamber " + room[2]);
+		
 		String desc = bc.GetDescription();
-		if (desc.startsWith("You are now")) {
-			updateLocationLabel(desc);
-		} else 
+		if (!desc.startsWith("You are now"))
 			updateOutput(desc);
 		updateCmdsList(bc.GetCommands().stream().toArray(String[]::new));
 		updateRoomItemsList(bc.GetRoomItems().stream().toArray(String[]::new));
@@ -128,7 +132,7 @@ public class TrappedFrame extends JFrame {
         cmdsLabel = new JLabel("Available Commands");
         cmdsList = new JList<String>(new String[]{"available","commands","go here"});
         roomItemsLabel = new JLabel("Chamber Items");
-        roomItemsList = new JList<String>(new String[]{"room items","go here"});
+        roomItemsList = new JList<String>(new String[]{});
 
         ImageIcon im = new ImageIcon("trapped_map.png");
         map = new JLabel(im);
@@ -214,7 +218,8 @@ public class TrappedFrame extends JFrame {
 
         center.add(mainPanel, "Center");
         ct.add(center, "Center");
-        
+
+        JOptionPane.showMessageDialog(null, "WELCOME TO TRAPPED.\nThis is a text-based game.\nPlease enjoy.");
     }
     
     class EnterListener implements KeyListener {
