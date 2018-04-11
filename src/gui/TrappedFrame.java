@@ -16,7 +16,7 @@ public class TrappedFrame extends JFrame {
     JPanel left, center, right;
     
     JList<String> inventoryList, cmdsList, roomItemsList;
-    JTextArea output;
+    static JTextArea output;
     JTextField input;
     JButton submit;
     JTextField hpBar, hungerBar, timerBar;
@@ -41,7 +41,7 @@ public class TrappedFrame extends JFrame {
 		ChamberBehavior bc = (ChamberBehavior) cur.get(cv);
 		
 		String[] room = bc.getClass().getName().split("r");
-		System.out.println(Arrays.toString(room));
+//		System.out.println(Arrays.toString(room));
 		updateLocationLabel("You are now in Chamber " + room[2]);
 		
 		String desc = bc.GetDescription();
@@ -57,35 +57,26 @@ public class TrappedFrame extends JFrame {
     public void sendInput(String inputCmd) throws Exception {
     	
     	String inp = input.getText();
-    	if ( inp.equalsIgnoreCase("exit") )
-		{
+    	if ( inp.equalsIgnoreCase("exit") ) {
     		JOptionPane.showMessageDialog(null, "TRAPPED is now closing. Thanks for playing.\n- Kurt de Leon & Brian Guadalupe");
     		System.exit(0);
-		}
-		else
-		{
-			int index = inp.indexOf(' ');
-			
-			if (index > -1)
-			{
-				String action = inp.substring( 0, index );
-				String subject = inp.substring( index + 1 );
+		} else {
+			if (!chamber.GameState.PLAYER_DEAD) {
+				int index = inp.indexOf(' ');
 				
-				if ( action.equalsIgnoreCase("go") || action.equalsIgnoreCase("move") )
-				{
-					System.err.println(inp);
-					updateOutput(cave.Move( subject ));
-					updateAll(cave);
+				if (index > -1)	{
+					String action = inp.substring( 0, index );
+					String subject = inp.substring( index + 1 );
+					
+					if ( action.equalsIgnoreCase("go") || action.equalsIgnoreCase("move") )	{
+						updateOutput(cave.Move( subject ));
+					} else {
+						updateOutput(cave.Perform( action, subject ));
+					}
 				}
-				else 
-				{
-					updateOutput(cave.Perform( action, subject ));
-					updateAll(cave);
+				else {
+					updateOutput(cave.Perform( inp, null ));
 				}
-			}
-			else
-			{
-				updateOutput(cave.Perform( inp, null ));
 				updateAll(cave);
 			}
 		}
@@ -100,10 +91,9 @@ public class TrappedFrame extends JFrame {
     public void updateHungerBar(int newText) {
         hungerBar.setText("Hunger: " + newText);
     }
-    public void updateOutput(String newText) {
-//    	System.err.println("called: updateOutput " + newText);
+    public static void updateOutput(String newText) {
     	String old = output.getText();
-        output.setText(old + newText);
+        output.setText(old + "\n" + newText);
     }
     public void updateLocationLabel(String newText) {
         locationLabel.setText(newText);
@@ -125,7 +115,7 @@ public class TrappedFrame extends JFrame {
         hungerBar = new JTextField("Hunger:");
         inventoryLabel = new JLabel("Your Inventory");
         inventoryList = new JList<String>(new String[]{"inventory", "goes here"});
-        timerBar = new JTextField("timer goes here");
+        timerBar = new JTextField("");
         output = new JTextArea("");
         input = new JTextField("", 50);
         submit = new JButton("Submit");

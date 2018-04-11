@@ -2,17 +2,33 @@ package chamber;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Random;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 import annotation.Chamber;
 import annotation.Command;
 import annotation.Direction;
+import gui.TrappedFrame;
+import player.Status;
 
 @Chamber
 public class Chamber5 extends BaseChamber implements ChamberBehavior {
 	
 	private boolean hasAccessed = false;
 	private boolean hasPlayed = false;
+	
+	// mini-game variables
+	private int n1 = 0;
+	private int n2 = 0;
+	private int ans = 0;
+	private int timeLeft = 5;
+	
+	private Timer t;
 
 	@Direction(direction="south", accessible=true, accessMessage="")
 	private Chamber4 south;
@@ -73,7 +89,7 @@ public class Chamber5 extends BaseChamber implements ChamberBehavior {
 	}
 	
 	@Command(command="place")
-	public String Place(String item)
+	public String Place(String item) throws Exception
 	{
 		StringWriter sw = new StringWriter();
     	PrintWriter pw = new PrintWriter(sw);
@@ -85,7 +101,9 @@ public class Chamber5 extends BaseChamber implements ChamberBehavior {
 				pw.println("You place the jade pieces into the holes.");
 				pw.println("Everything suddenly shakes and the jade statue glows bright.");
 				pw.println("You hear a loud voice.");
+				TrappedFrame.updateOutput(sw.toString());
 				PlayGame();
+				return "";
 			}
 			else
 			{
@@ -99,12 +117,67 @@ public class Chamber5 extends BaseChamber implements ChamberBehavior {
 		return "It doesn't fit.";
 	}
 	
-	public void PlayGame()
+	public void PlayGame() throws Exception
 	{
+
+		Random rand = new Random();
+		int questionsLeft = 5;
+		
 		while ( !hasPlayed )
 		{
 			//TODO game stuff here
+			JOptionPane.showMessageDialog(null, "A genie appears... \nHe now wants you to prove your prowess in solving math problems.", "Poof!", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "You can DIE by playing this game.", "A word of warning", JOptionPane.WARNING_MESSAGE);
+			
+			while (questionsLeft-- > 0) {
+				timeLeft = 5;
+				String currStats = String.format("(You currently have %d health, %d hunger)\n", Status.GetHealth(), Status.GetHunger());
+				
+				t = new Timer(1000, new ActionListener() {
+					@Override
+			        public void actionPerformed(ActionEvent e) {
+						System.out.println(timeLeft + " seconds left");
+						if (timeLeft-- <= 0) {
+							Status.RemoveHealth(20); Status.RemoveHunger(20);
+							JOptionPane.showMessageDialog(null, "Too slow! You lose 20 health, 20 hunger. \nPress Enter key in the input box to proceed.", "Time's up!", JOptionPane.ERROR_MESSAGE);
+							t.stop();
+						}
+					}
+				});
+				t.start();
+
+				n1 = rand.nextInt(89) + 10;
+				n2 = rand.nextInt(9) + 1;
+				ans = n1*n2;
+				
+				String playerAnswer = JOptionPane.showInputDialog(String.format("%sWhat is %d * %d?", currStats, n1, n2));
+				t.stop();
+				if (timeLeft > 0) {
+					try {
+						int ansInt = Integer.parseInt(playerAnswer);
+						if (ans == ansInt) {
+							Status.AddHealth(15); Status.AddHunger(15);
+							JOptionPane.showMessageDialog(null, "Correct! You gain 15 health, 15 hunger.", "Whew!", JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							Status.RemoveHealth(20); Status.RemoveHunger(20);
+							JOptionPane.showMessageDialog(null, "Wrong! You lose 20 health, 20 hunger.", "Ouch!", JOptionPane.ERROR_MESSAGE);
+						}
+					} catch (Exception e) {
+						Status.RemoveHealth(20); Status.RemoveHunger(20);
+						JOptionPane.showMessageDialog(null, "Wrong! You lose 20 health, 20 hunger.", "Ouch!", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+				
+			
+			if (!GameState.PLAYER_DEAD) {
+				JOptionPane.showMessageDialog(null, "The genie lets you live another day...", "Congrats, I guess", JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(null, "And just like that, the genie sucks out your soul.\n It's game over for you...", "Tough luck!", JOptionPane.WARNING_MESSAGE);
+			}
+			
 			hasPlayed = true; //exit condition
+			
 		}
 		
 		/*
@@ -115,5 +188,6 @@ public class Chamber5 extends BaseChamber implements ChamberBehavior {
 		 * They can die from this. :P
 		 */
 	}
+
 }
 

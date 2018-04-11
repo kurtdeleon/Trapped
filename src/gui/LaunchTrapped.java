@@ -9,6 +9,7 @@ public class LaunchTrapped {
         fr.setSize(900,500);
         fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fr.setTitle("Trapped");
+        fr.setLocationRelativeTo(null);
         fr.setVisible(true);
     }
 }
