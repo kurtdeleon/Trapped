@@ -10,24 +10,35 @@ import annotation.Direction;
 import annotation.Locked;
 
 @Chamber
-@Locked(code="chamber11-000001")
-public class Chamber11 extends BaseChamber implements ChamberBehavior {
+@Locked(code="chamber8-000001")
+public class Chamber8 extends BaseChamber implements ChamberBehavior {
 
-	@Direction(direction="east", accessible=false, accessMessage="You don't have enough energy to go back.")
-	private Chamber10 east;
+	@Direction(direction="north", accessible=false, accessMessage="I don't think your flimsy boat can handle upward streams.")
+	private Chamber4 north;
+	@Direction(direction="south", accessible=true, accessMessage="")
+	private Chamber10 south;
+	
+	private boolean hasAccessed = false;
 	
 	@Override
 	public String GetDescription() {
 		StringWriter sw = new StringWriter();
     	PrintWriter pw = new PrintWriter(sw);
     	
-	    pw.println("You crawl towards a group of spelunkers having breakfast.");
-	    pw.println("They notice you, and they come running.");
-	    pw.println("Thank God.");
-	    pw.println("I can finally take a rest from all this bullshit.");
-	    pw.println("Why did I end up there anyway...?");
-	    pw.println();
-		
+    	if (hasAccessed)
+		{
+			pw.println("You are now in CHAMBER 8.");
+	        pw.println();
+		}
+		else
+		{
+			hasAccessed = true;
+			pw.println("You enter a small island with pretty much nothing in it.");
+		    pw.println("Huh... this kinda seems like the small room before a boss fight.");
+		    pw.println("You chuckle to yourself.");
+		    pw.println();
+		}
+    	
         return sw.toString();
 	}
 
@@ -45,17 +56,11 @@ public class Chamber11 extends BaseChamber implements ChamberBehavior {
 	public List<String> GetInventoryList() {
 		return super.GetInventoryList();
 	}
-
+	
 	@Override
 	@Command(command="explore")
 	public String Explore() {
-		return "You're blacking out...";
-	}
-	
-	@Command(command="rest")
-	public String Rest() {
-		chamber.GameState.PLAYER_DEAD = true; //not rly pero hehe
-		return "You're too tired to think. The only thing you're thinking of is finally escaping.\nYou black out.";
+		return "There's not much to explore. It is just a small island, after all.";
 	}
 	
 	@Override

@@ -69,6 +69,30 @@ public class BaseChamber {
 		return roomItems;
 	}
 	
+	public List<String> GetInventoryList()
+    {
+        List<String> inventoryList = new ArrayList<String>();
+       
+        for ( Field fld : player.Inventory.class.getDeclaredFields() )
+        {
+            if ( fld.getType().equals(Item.class) )
+            {
+                try
+                {
+                    fld.setAccessible(true);
+                    Item tempItem = (Item) fld.get(null);
+                    if ( tempItem.HasStock() )
+                    {
+                    	inventoryList.add( tempItem.GetMainItemName() + " (" + tempItem.GetStock() + ")" );
+                    }
+                   
+                }
+                catch (Exception e) {}
+            }
+        }
+        return inventoryList;
+    }
+	
 	@Command(command="use")
 	public String Use(String item)
 	{
@@ -118,6 +142,19 @@ public class BaseChamber {
 						pw.println( inventoryItem.GetNoSupplyMessage() );
 					}
 				}
+				else if ( inventoryItem.CheckIfItemName("leaf") )
+				{
+					if ( inventoryItem.HasStock() )
+					{
+						inventoryItem.RemoveStock(1);
+						player.Status.AddHealth(10);
+						pw.println( inventoryItem.GetUseMessage() );
+					}
+					else
+					{
+						pw.println( inventoryItem.GetNoSupplyMessage() );
+					}
+				}
 				else if ( inventoryItem.CheckIfItemName("white mushroom") )
 				{
 					if ( inventoryItem.HasStock() )
@@ -132,10 +169,55 @@ public class BaseChamber {
 						pw.println( inventoryItem.GetNoSupplyMessage() );
 					}
 				}
+				else if ( inventoryItem.CheckIfItemName("cockroach") )
+				{
+					if ( inventoryItem.HasStock() )
+					{
+						inventoryItem.RemoveStock(1);
+						player.Status.RemoveHealth(50);
+						player.Status.AddHunger(30);
+						pw.println( inventoryItem.GetUseMessage() );
+					}
+					else
+					{
+						pw.println( inventoryItem.GetNoSupplyMessage() );
+					}
+				}
+				else if ( inventoryItem.CheckIfItemName("poop") )
+				{
+					if ( inventoryItem.HasStock() )
+					{
+						inventoryItem.RemoveStock(1);
+						pw.println( inventoryItem.GetUseMessage() );
+						GameState.PLAYER_DEAD = true;
+					}
+					else
+					{
+						pw.println( inventoryItem.GetNoSupplyMessage() );
+					}
+				}
+				else if ( inventoryItem.CheckIfItemName("berry") )
+				{
+					if ( inventoryItem.HasStock() )
+					{
+						inventoryItem.RemoveStock(1);
+						player.Status.AddHunger(30);
+						pw.println( inventoryItem.GetUseMessage() );
+					}
+					else
+					{
+						pw.println( inventoryItem.GetNoSupplyMessage() );
+					}
+				}
+				else
+				{
+					pw.println("Can't do that.");
+				}
 			}
 		} 
 		catch (Exception e) {} 
 		
+		pw.println();
 		return sw.toString();
 	}
 	
@@ -149,7 +231,7 @@ public class BaseChamber {
 			Item roomItem = GetItem( item );
 			Item inventoryItem = player.Inventory.GetItem( item );
 			
-			if ( roomItem == null && inventoryItem == null )
+			if ( roomItem == null || inventoryItem == null )
 			{
 				pw.println("Item not found in room.");
 				pw.println();

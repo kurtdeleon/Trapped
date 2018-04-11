@@ -14,6 +14,7 @@ public class Chamber1 extends BaseChamber implements ChamberBehavior {
 	
 	private boolean hasAccessed = false;
 	private boolean hasExplored = false;
+	private int timesPlayerPouredWater = 0;
 	
 	private Item RATIONS = new Item( new String[] {"rations", "ration", "food"}, 
 			2, false, "RATIONS (2) acquired.", "", 
@@ -31,7 +32,7 @@ public class Chamber1 extends BaseChamber implements ChamberBehavior {
 	private Chamber9 east;
 	@Direction(direction="west", accessible=true, accessMessage="")
 	private Chamber2 west;
-
+	
 	@Override
 	public String GetDescription() {
 		StringWriter sw = new StringWriter();
@@ -39,7 +40,7 @@ public class Chamber1 extends BaseChamber implements ChamberBehavior {
     	
 		if (hasAccessed)
 		{
-			pw.println("You are now in CHAMBER ONE.");
+			pw.println("You are now in CHAMBER 1.");
 	        pw.println();
 		}
 		else
@@ -69,6 +70,10 @@ public class Chamber1 extends BaseChamber implements ChamberBehavior {
 		{
 			commands.remove("take");
 		}
+		if ( GameState.CHAMBER9_OPEN )
+		{
+			commands.remove("pour");
+		}
 		
 		return commands;
 	}
@@ -78,6 +83,11 @@ public class Chamber1 extends BaseChamber implements ChamberBehavior {
 		return super.GetRoomItems();
 	}
 
+	@Override
+	public List<String> GetInventoryList() {
+		return super.GetInventoryList();
+	}
+	
 	@Override
 	@Command(command="explore")
 	public String Explore() {
@@ -98,6 +108,63 @@ public class Chamber1 extends BaseChamber implements ChamberBehavior {
 	        pw.println();
 			pw.println("Room items have been updated. Use TAKE command to take items.");
 			pw.println();
+		}
+		
+		return sw.toString();
+	}
+	
+	@Command(command="pour")
+	public String Pour(String item)
+	{
+		if ( !hasExplored )
+		{
+			return "Go explore first!";
+		}
+		StringWriter sw = new StringWriter();
+    	PrintWriter pw = new PrintWriter(sw);
+    	
+		if ( player.Inventory.WATER.CheckIfItemName(item) && !GameState.CHAMBER9_OPEN )
+		{
+			if ( player.Inventory.WATER.HasStock() )
+			{
+				switch ( timesPlayerPouredWater )
+		    	{
+		    	case 0:
+		    		pw.println("Looks like it's kinda working. Might need a few more times for it to break.");
+		    		break;
+		    	case 1:
+		    		pw.println("Getting there... pour more water into it!");
+		    		break;
+		    	case 2:
+		    		pw.println("It's crumbling! Just a little more!");
+		    		break;
+		    	case 3:
+		    		GameState.CHAMBER9_OPEN = true;
+		    	}
+		    	timesPlayerPouredWater++;
+		    	player.Inventory.WATER.RemoveStock(1);
+			}
+			else
+			{
+				pw.println("Doesn't seem like you have anything to pour on the wall.");
+			}
+		}
+		else if ( player.Inventory.WATER.CheckIfItemName(item) && GameState.CHAMBER9_OPEN )
+		{
+			if ( player.Inventory.WATER.HasStock() )
+			{
+				pw.println("You pour water but it's already open. So nothing really happens.");
+				pw.println("You just made a mess, really.");
+			}
+			else
+			{
+				pw.println("The chamber's already open.");
+				pw.println("Plus, you don't really have anything to pour on the wall.");
+			}
+		}
+		else
+		{
+			pw.println("Pour what?");
 		}
 		
 		return sw.toString();

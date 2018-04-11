@@ -15,22 +15,22 @@ public class Chamber7 extends BaseChamber implements ChamberBehavior {
 	private boolean hasAccessed = false;
 	private boolean hasExplored = false;
 	
-	private Item RATIONS = new Item( new String[] {"rations", "ration", "food"}, 
-			2, false, "RATIONS (2) acquired.", "", 
-			"You have already taken the RATIONS earlier." );
-	private Item BANDAGES = new Item( new String[] {"bandages", "bandage", "medicine"}, 
-			1, false, "BANDAGES (1) acquired.", "", 
-			"You have already taken the BANDAGES earlier." );
+	private Item CLAY_POT = new Item( new String[] {"clay pot", "pot", "pail", "container"}, 
+			1, false, "CLAY POT (1) acquired.", "", 
+			"You took the clay pot earlier, remember?" );
+	
 	private Item JADE = new Item( new String[] {"jade", "jade piece"}, 
 			1, false, "JADE (1) acquired.", "", 
 			"You have already taken the JADE you found.");
 	
-	@Direction(direction="north", accessible=false, accessMessage="Clearing is too high to reach. Must find another way to get there...")
-	private Chamber4 north;
+	private Item SHARP_ROCK = new Item( new String[] {"sharp rock", "sharp", "rock", "knife"}, 
+			1, false, "SHARP ROCK (1) acquired", "",
+			"The rest of the rocks here aren't sharp at all. You decide to ignore them.");
+	
+	@Direction(direction="north", accessible=false, accessMessage="Side of the cliff is too slippery to climb on to.\nMust find another way to get there...")
+	private Chamber6 north;
 	@Direction(direction="east", accessible=true, accessMessage="")
-	private Chamber9 east;
-	@Direction(direction="west", accessible=true, accessMessage="")
-	private Chamber2 west;
+	private Chamber2 east;
 
 	@Override
 	public String GetDescription() {
@@ -39,23 +39,18 @@ public class Chamber7 extends BaseChamber implements ChamberBehavior {
     	
 		if (hasAccessed)
 		{
-			pw.println("You are now in CHAMBER ONE.");
+			pw.println("You are now in CHAMBER 7.");
 	        pw.println();
 		}
 		else
 		{
 			hasAccessed = true;
-	        pw.println("You wake up in a dark place with no memories intact.");
-	        pw.println("Your head is splitting but you quickly realize that you have to get moving.");
+	        pw.println("You enter a room that has a huge clearing above.");
+	        pw.println("At the north-east portion of the roof, there seems to be a small chamber.");
+	        pw.println("The side of the cliff is slanted in a way that you can slide down, but you cannot climb up.");
+	        pw.println("Plus, it's too slippery.");
 	        pw.println();
-	        pw.println("Feeling around in the dark, you stumble upon what feels like a backpack.");
-	        pw.println("It's probably yours, you think to yourself.");
-	        pw.println("You check inside and you find a flashlight.");
-	        pw.println("FLASHLIGHT acquired.");
-	        pw.println("Luckily, the flashlight still works.");
-	        player.Inventory.HAS_FLASHLIGHT = true;
-	        pw.println();
-	        pw.println("Maybe you should EXPLORE the chamber and try to find more things.");
+	        pw.println("Some greenery peeks through the edges of the chamber above.");
 	        pw.println();
 		}
 		
@@ -65,7 +60,7 @@ public class Chamber7 extends BaseChamber implements ChamberBehavior {
 	@Override
 	public List<String> GetCommands() {
 		List<String> commands = super.GetCommands();
-		if ( !RATIONS.HasStock() && !BANDAGES.HasStock() && !JADE.HasStock() )
+		if ( !CLAY_POT.HasStock() && !JADE.HasStock() && !SHARP_ROCK.HasStock() )
 		{
 			commands.remove("take");
 		}
@@ -76,6 +71,11 @@ public class Chamber7 extends BaseChamber implements ChamberBehavior {
 	@Override
 	public List<String> GetRoomItems() {
 		return super.GetRoomItems();
+	}
+
+	@Override
+	public List<String> GetInventoryList() {
+		return super.GetInventoryList();
 	}
 
 	@Override
@@ -92,11 +92,14 @@ public class Chamber7 extends BaseChamber implements ChamberBehavior {
 		else
 		{
 			hasExplored = true;
-			pw.println("You look around and find more useful things.");
-	        pw.println("Near the backpack, you see a weird, glowing piece of jade.");
-	        pw.println("It might prove useful in the future, you think to yourself.");
-	        pw.println();
-			pw.println("Room items have been updated. Use TAKE command to take items.");
+			pw.println("You stumble upon a clay pot that's surprisingly well-made.");
+	        pw.println("Looking inside, you find a small jade piece.");
+			pw.println();
+			pw.println("You walk forward a bit more and accidentally trip on something.");
+			pw.println("Agh, it was a SHARP ROCK!");
+			pw.println("You now have a medium-sized cut near your ankle.");
+			pw.println("You took a bit of damage there.");
+			player.Status.RemoveHealth(15);
 			pw.println();
 		}
 		
