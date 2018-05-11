@@ -28,11 +28,7 @@ public class Item {
 	}
 	
 	public boolean CheckIfItemName(String str) {
-		if ( names.contains(str.toLowerCase()) )
-		{
-			return true;
-		}
-		return false;
+		return names.contains(str.toLowerCase());
 	}
 
 	public int GetStock() {
