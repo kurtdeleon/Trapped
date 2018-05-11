@@ -2,6 +2,8 @@ package player;
 
 import java.lang.reflect.Field;
 
+import item.Item;
+
 public class Inventory {
 	
 	public static boolean HAS_FLASHLIGHT = false;
