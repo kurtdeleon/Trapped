@@ -48,10 +48,7 @@ public class Item {
 	}
 	
 	public boolean HasStock(){
-		if ( stock <= 0 ) {
-			return false;
-		}
-		return true;
+		return stock > 0;
 	}
 
 	public boolean IsInventoryItem() {
