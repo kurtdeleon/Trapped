@@ -179,15 +179,11 @@ public class Chamber5 extends BaseChamber implements ChamberBehavior {
 			hasPlayed = true; //exit condition
 			
 		}
-		
-		/*
-		 * This is a time-based game.
-		 * A genie appears and demands the player to answer mathematical questions.
-		 * Yung medyo madali lang. 2 digit x 1 digit. Give them 5 questions, 5 seconds to answer.
-		 * Para may thrill, if correct: +15 health, +15 hunger. if wrong: -20 health, -20 hunger.
-		 * They can die from this. :P
-		 */
 	}
-
+	
+	@Override
+	public String SaveRoomData() {
+		return super.SaveRoomData();
+	}
 }
 

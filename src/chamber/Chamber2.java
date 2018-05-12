@@ -208,4 +208,9 @@ public class Chamber2 extends BaseChamber implements ChamberBehavior {
 		
 		return "Doesn't seem like a good idea to cut these.\n";
 	}
+	
+	@Override
+	public String SaveRoomData() {
+		return super.SaveRoomData();
+	}
 }

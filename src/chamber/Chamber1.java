@@ -173,6 +173,7 @@ public class Chamber1 extends BaseChamber implements ChamberBehavior {
 	@Override
 	@Command(command="use")
 	public String Use(String item) {
+		System.out.println(SaveRoomData());
 		return super.Use(item);
 	}
 	
@@ -184,5 +185,10 @@ public class Chamber1 extends BaseChamber implements ChamberBehavior {
 			return super.Take(item);
 		}
 		return "You should EXPLORE the chamber first.";
+	}
+	
+	@Override
+	public String SaveRoomData() {
+		return super.SaveRoomData();
 	}
 }

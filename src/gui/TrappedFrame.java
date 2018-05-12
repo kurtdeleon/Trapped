@@ -5,10 +5,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.lang.reflect.*;
-import java.util.*;
 
 import cave.CaveMaker;
-import chamber.BaseChamber;
 import chamber.ChamberBehavior;
 
 public class TrappedFrame extends JFrame {
@@ -57,7 +55,7 @@ public class TrappedFrame extends JFrame {
     public void sendInput(String inputCmd) throws Exception {
     	
     	String inp = input.getText();
-    	if ( inp.equalsIgnoreCase("exit") ) {
+    	if ( inp.equalsIgnoreCase("quit") ) {
     		JOptionPane.showMessageDialog(null, "TRAPPED is now closing. Thanks for playing.\n- Kurt de Leon & Brian Guadalupe");
     		System.exit(0);
 		} else {
@@ -70,7 +68,8 @@ public class TrappedFrame extends JFrame {
 					
 					if ( action.equalsIgnoreCase("go") || action.equalsIgnoreCase("move") )	{
 						updateOutput(cave.Move( subject ));
-					} else {
+					} 
+					else {
 						updateOutput(cave.Perform( action, subject ));
 					}
 				}

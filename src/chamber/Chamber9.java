@@ -159,4 +159,9 @@ public class Chamber9 extends BaseChamber implements ChamberBehavior {
 		pw.println();
 		return sw.toString();
 	}
+	
+	@Override
+	public String SaveRoomData() {
+		return super.SaveRoomData();
+	}
 }

@@ -27,6 +27,7 @@ public class CaveMaker {
 	private Object currentChamber;
 	private List<String> listOfAllClasses;
 	private List<String> listOfAllInterceptors;
+	private ChamberManager cm;
 	
 	private String GetInterceptor(String code) {
 		
@@ -54,6 +55,7 @@ public class CaveMaker {
 	{
 		for (String className : listOfAllClasses)
 		{
+			//System.out.println(className);
 			try
 			{
 				Class<?> chamberClass = Class.forName(className);
@@ -96,8 +98,6 @@ public class CaveMaker {
 						}
 						catch (Exception e){ System.out.println("A locked room has been detected."); }
 					}
-					
-					System.out.println(chamberInstance.getClass().toString()); //TESTER
 					chamberMap.put( chamberClass, chamberInstance );
 				}
 			}
@@ -137,6 +137,7 @@ public class CaveMaker {
 	public void Load() throws Exception
 	{
 		chamberMap = new HashMap<Class<?>, Object>();
+		cm = new ChamberManager();
 		
 		FastClasspathScanner scannerClass = new FastClasspathScanner( chamber.Chamber1.class.getPackage().getName() );
 		ScanResult resultClass = scannerClass.scan();
@@ -149,20 +150,30 @@ public class CaveMaker {
 		LoadChambers();
 		LoadChamberMethodsAndFields();
 		
+		
+		
+		
+		
+		/* 
+		 * SAVE LOAD SYSTEM
+		 * Just un-comment out which one u want to do lol
+		 */
+		chamberMap = cm.LoadData( chamberMap );
+		//cm.SaveData( chamberMap );
+		
+		
+		
+		
+		
+		
+		
 		currentChamber = chamberMap.get( Chamber1.class );
-//		PrintDescription();
 	}
 	
 	public String PrintDescription() throws Exception
 	{
 		Method met = currentChamber.getClass().getDeclaredMethod("GetDescription");
-//		System.out.println( met.invoke(currentChamber) );
 		return (String) met.invoke(currentChamber);
-		
-		/*Method met2 = currentChamber.getClass().getDeclaredMethod("GetCommands");
-		Method met3 = currentChamber.getClass().getDeclaredMethod("GetRoomItems");
-		System.out.println( met2.invoke(currentChamber) );	
-		System.out.println( met3.invoke(currentChamber) );*/
 	}
 	
 	public String Move(String direction)
@@ -203,7 +214,6 @@ public class CaveMaker {
 										
 										// REPLACE PROXY IN CHAMBERMAP
 										chamberMap.put(fieldClass, currentChamber); 
-//										System.err.println("d " + ret);
 										ret += "\n" + PrintDescription();
 									}
 									else 

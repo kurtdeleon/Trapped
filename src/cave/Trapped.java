@@ -25,7 +25,7 @@ public class Trapped {
 			System.out.println("What do you want do?");
 			String input = scanner.nextLine();
 			
-			if ( input.equalsIgnoreCase("exit") )
+			if ( input.equalsIgnoreCase("quit") )
 			{
 				System.out.println("\nTRAPPED is now closing. Thanks for playing.");
 				System.out.println("-Kurt de Leon & Brian Guadalupe");

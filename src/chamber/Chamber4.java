@@ -175,4 +175,9 @@ public class Chamber4 extends BaseChamber implements ChamberBehavior {
 		
 		return "Attach what?\n";
 	}
+	
+	@Override
+	public String SaveRoomData() {
+		return super.SaveRoomData();
+	}
 }

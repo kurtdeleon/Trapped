@@ -121,4 +121,9 @@ public class Chamber7 extends BaseChamber implements ChamberBehavior {
 		}
 		return "You should EXPLORE the chamber first.";
 	}
+	
+	@Override
+	public String SaveRoomData() {
+		return super.SaveRoomData();
+	}
 }

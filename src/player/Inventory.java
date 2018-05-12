@@ -1,6 +1,10 @@
 package player;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Field;
+
+import annotation.Direction;
 
 public class Inventory {
 	
@@ -115,6 +119,10 @@ public class Inventory {
     			{
     				return tempItem;
     			}
+    			if ( fld.getName().equalsIgnoreCase(item) )
+    			{
+    				return tempItem;
+    			}
     		}
     	}
 		return null;
@@ -130,5 +138,27 @@ public class Inventory {
     			tempItem.SetStock(0);
     		}
     	}
+	}
+	
+	public static String SaveInventoryState()
+	{
+		StringWriter sw = new StringWriter();
+    	PrintWriter pw = new PrintWriter(sw);
+		
+		for ( Field fld : player.Inventory.class.getDeclaredFields() )
+    	{
+			pw.println();
+			try 
+			{
+				if ( fld.getType().equals(Item.class) ) 
+		    	{
+					Item tempItem = (Item) fld.get(null);
+					pw.println( fld.getName() );
+					pw.print( tempItem.GetStock() );
+			   	}
+			} catch (Exception e) {}
+    	}
+    	
+    	return sw.toString();
 	}
 }

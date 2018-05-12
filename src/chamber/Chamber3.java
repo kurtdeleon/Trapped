@@ -231,4 +231,9 @@ public class Chamber3 extends BaseChamber implements ChamberBehavior {
 
 		return super.Take(item);
 	}
+	
+	@Override
+	public String SaveRoomData() {
+		return super.SaveRoomData();
+	}
 }

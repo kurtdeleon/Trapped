@@ -1,11 +1,14 @@
 package player;
 
 public class Status {
+	public static String name = "Kurt";
 	private static int health = 40;
 	private static int hunger = 80;
 	
 	public static int GetHealth() { return health; }
 	public static int GetHunger() { return hunger; }
+	public static void SetHealth(int newHealth) { health = newHealth; }
+	public static void SetHunger(int newHunger) { hunger = newHunger; }
 	
 	public static void AddHunger(int num)
 	{
