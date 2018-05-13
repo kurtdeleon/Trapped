@@ -10,6 +10,7 @@ import annotation.Chamber;
 import annotation.Command;
 import annotation.Direction;
 import annotation.Interceptor;
+import chamber.BaseChamber;
 import chamber.Chamber1;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.DynamicType;
@@ -150,24 +151,17 @@ public class CaveMaker {
 		LoadChambers();
 		LoadChamberMethodsAndFields();
 		
-		
-		
-		
-		
-		/* 
-		 * SAVE LOAD SYSTEM
-		 * Just un-comment out which one u want to do lol
-		 */
+		// tries to load from savefile
 		chamberMap = cm.LoadData( chamberMap );
-		//cm.SaveData( chamberMap );
 		
-		
-		
-		
-		
-		
-		
-		currentChamber = chamberMap.get( Chamber1.class );
+		Class<?> chamberClass = Class.forName( player.Status.GetCurrentChamber() );
+		currentChamber = chamberMap.get( chamberClass );
+		//System.out.println( PrintDescription() );
+	}
+	
+	public void TestSave()
+	{
+		cm.SaveData( chamberMap );
 	}
 	
 	public String PrintDescription() throws Exception
@@ -199,10 +193,11 @@ public class CaveMaker {
 							if (fieldClass.isAnnotationPresent(Locked.class))
 							{
 								Object tempRoom = chamberMap.get(fieldClass);
-								
-								if (tempRoom.getClass().getSuperclass() == Object.class)
+								//System.out.println(tempRoom.toString());
+								if (tempRoom.getClass().getSuperclass() == BaseChamber.class)
 								{
 									currentChamber = chamberMap.get(fieldClass);
+									player.Status.SetCurrentChamber( currentChamber.getClass().getName() );
 									ret = PrintDescription();
 								}
 								else
@@ -211,6 +206,7 @@ public class CaveMaker {
 									{
 										ret = ((EnterCondition) tempRoom).enterMessage();
 										currentChamber = tempRoom.getClass().getSuperclass().newInstance();
+										player.Status.SetCurrentChamber( currentChamber.getClass().getName() );
 										
 										// REPLACE PROXY IN CHAMBERMAP
 										chamberMap.put(fieldClass, currentChamber); 
@@ -226,6 +222,7 @@ public class CaveMaker {
 							else
 							{
 								currentChamber = chamberMap.get(fieldClass);
+								player.Status.SetCurrentChamber( currentChamber.getClass().getName() );
 								ret = PrintDescription();
 							}
 						}

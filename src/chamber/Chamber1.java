@@ -173,7 +173,6 @@ public class Chamber1 extends BaseChamber implements ChamberBehavior {
 	@Override
 	@Command(command="use")
 	public String Use(String item) {
-		System.out.println(SaveRoomData());
 		return super.Use(item);
 	}
 	

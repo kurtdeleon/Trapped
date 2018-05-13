@@ -29,7 +29,6 @@ public class TrappedFrame extends JFrame {
         cave = new CaveMaker();
 		cave.Load();
 		updateAll(cave);
-		
     }
     
     public void updateAll(CaveMaker cv) throws Exception {
@@ -58,6 +57,8 @@ public class TrappedFrame extends JFrame {
     	if ( inp.equalsIgnoreCase("quit") ) {
     		JOptionPane.showMessageDialog(null, "TRAPPED is now closing. Thanks for playing.\n- Kurt de Leon & Brian Guadalupe");
     		System.exit(0);
+    	} else if ( inp.equalsIgnoreCase("testsave") ) {
+			cave.TestSave();
 		} else {
 			if (!chamber.GameState.PLAYER_DEAD) {
 				int index = inp.indexOf(' ');

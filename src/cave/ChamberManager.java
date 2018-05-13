@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import annotation.Chamber;
+import annotation.Locked;
 import player.Item;
 
 public class ChamberManager {
@@ -63,6 +64,7 @@ public class ChamberManager {
     	PrintWriter pw = new PrintWriter(sw);
     	
 		pw.print( player.Status.name + " ");
+		pw.print( player.Status.GetCurrentChamber() + " ");
 		pw.print( player.Status.GetHealth() + " ");
 		pw.println( player.Status.GetHunger() );
 		
@@ -90,14 +92,19 @@ public class ChamberManager {
 		}
 	}
 	
+	/* 
+	 * LOADING METHODS BELOW
+	 * LOADING METHODS BELOW
+	 * LOADING METHODS BELOW
+	 * LOADING METHODS BELOW
+	 */
+
 	public HashMap<Class<?>, Object> LoadData( HashMap<Class<?>, Object> chamberMap ) throws IllegalArgumentException, IllegalAccessException
 	{	
 		try {
 			save = new File("savefile.txt");
 			sc = new Scanner(save);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		} catch (FileNotFoundException e) { e.printStackTrace(); }
 		
 		try {
 			chamberMap = LoadChamberData( chamberMap );
@@ -128,6 +135,16 @@ public class ChamberManager {
 			{
 				Object chamberInstance = chamberMap.get( chamberClass );
 				
+				if ( chamberInstance.getClass().getSuperclass() != Object.class && chamberInstance.getClass().getSuperclass().isAnnotationPresent(Locked.class) )
+				{
+					try {
+						//System.out.print("replaced: " + chamberInstance.toString() + " ");
+						chamberInstance = chamberInstance.getClass().getSuperclass().newInstance();
+						chamberMap.put(chamberClass, chamberInstance); // REPLACE PROXY IN CHAMBERMAP
+						//System.out.println("with " + chamberInstance.toString());
+					} catch (InstantiationException e) { e.printStackTrace(); }
+				}
+				
 				while ( !sc.hasNext("---") )
 				{
 					String fieldName = sc.nextLine();
@@ -136,12 +153,13 @@ public class ChamberManager {
 					fld.setAccessible(true);
 					
 					Class<?> fieldClass = fld.getType();
-					if ( fieldClass == Boolean.class )
+					if ( fieldClass == Boolean.TYPE )
 					{
 						boolean newVal = sc.nextBoolean();
-						fld.setBoolean( chamberInstance, newVal );
+						System.out.println(fieldClass + " " + newVal);
+						fld.set( chamberInstance, newVal );
 					}
-					else if ( fieldClass == Integer.class )
+					else if ( fieldClass == Integer.TYPE )
 					{
 						int newVal = sc.nextInt();
 						fld.setInt( chamberInstance, newVal );
@@ -165,6 +183,7 @@ public class ChamberManager {
 	private void LoadPlayerStatus()
 	{
 		player.Status.name = sc.next();
+		player.Status.SetCurrentChamber( sc.next() );
 		player.Status.SetHealth( sc.nextInt() );
 		player.Status.SetHunger( sc.nextInt() );
 		sc.nextLine();
@@ -177,7 +196,7 @@ public class ChamberManager {
 			String fieldName = sc.nextLine();
 			int value = sc.nextInt();
 			sc.nextLine();
-			System.out.println( fieldName + " " + value);
+			//System.out.println( fieldName + " " + value);
 			Item tempItem = (Item) player.Inventory.GetItem( fieldName );
 			tempItem.SetStock( value );
 		}
