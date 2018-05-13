@@ -29,6 +29,7 @@ public class CaveMaker {
 	private List<String> listOfAllClasses;
 	private List<String> listOfAllInterceptors;
 	private ChamberManager cm;
+	private SaveDataManager sdm;
 	
 	private String GetInterceptor(String code) {
 		
@@ -139,6 +140,7 @@ public class CaveMaker {
 	{
 		chamberMap = new HashMap<Class<?>, Object>();
 		cm = new ChamberManager();
+		sdm = new SaveDataManager();
 		
 		FastClasspathScanner scannerClass = new FastClasspathScanner( chamber.Chamber1.class.getPackage().getName() );
 		ScanResult resultClass = scannerClass.scan();
