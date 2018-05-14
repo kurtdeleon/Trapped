@@ -1,8 +1,5 @@
 package item;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import chamber.GameState;
 
 public class Poop extends Item {
@@ -15,12 +12,7 @@ public class Poop extends Item {
 				"It's in your stomach.");
 	}
 	
-	public void doEffect(Item inventoryItem) {
-		StringWriter sw = new StringWriter();
-    	PrintWriter pw = new PrintWriter(sw);
-    	
-    	this.RemoveStock(1);
-		pw.println( this.GetUseMessage() );
+	public void doEffect() {
 		GameState.PLAYER_DEAD = true;
 	}
 }

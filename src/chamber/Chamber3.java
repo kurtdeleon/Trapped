@@ -8,7 +8,7 @@ import java.util.Random;
 import annotation.Chamber;
 import annotation.Command;
 import annotation.Direction;
-import player.Item;
+import item.Item;
 
 @Chamber
 public class Chamber3 extends BaseChamber implements ChamberBehavior {

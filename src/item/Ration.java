@@ -1,8 +1,5 @@
 package item;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 public class Ration extends Item {
 	
 	public Ration() {
@@ -14,12 +11,7 @@ public class Ration extends Item {
 			"You don't have any left. You feel regret for eating them so soon." );
 	}
 	
-	public void doEffect(Item inventoryItem) {
-		StringWriter sw = new StringWriter();
-    	PrintWriter pw = new PrintWriter(sw);
-    	
-		inventoryItem.RemoveStock(1);
+	public void doEffect() {
 		player.Status.AddHealth(80);
-		pw.println( inventoryItem.GetUseMessage() );
 	}
 }

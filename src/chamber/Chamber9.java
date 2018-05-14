@@ -8,7 +8,7 @@ import annotation.Chamber;
 import annotation.Command;
 import annotation.Direction;
 import annotation.Locked;
-import player.Item;
+import item.Item;
 
 @Chamber
 @Locked(code="chamber9-000001")

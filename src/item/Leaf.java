@@ -1,8 +1,5 @@
 package item;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 public class Leaf extends Item {
 	public Leaf() {
 		super(new String[] {"leaf", "leaves"}, 
@@ -14,11 +11,6 @@ public class Leaf extends Item {
 	}
 	
 	public void doEffect(Item inventoryItem) {
-		StringWriter sw = new StringWriter();
-    	PrintWriter pw = new PrintWriter(sw);
-    	
-    	inventoryItem.RemoveStock(1);
 		player.Status.AddHealth(10);
-		pw.println( inventoryItem.GetUseMessage() );
 	}
 }

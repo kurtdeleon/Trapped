@@ -1,8 +1,5 @@
 package item;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 public class Cockroach extends Item {
 	public Cockroach() {
 		super(new String[] {"cockroach", "insect"},  
@@ -14,12 +11,7 @@ public class Cockroach extends Item {
 	}
 	
 	public void doEffect(Item inventoryItem) {
-		StringWriter sw = new StringWriter();
-    	PrintWriter pw = new PrintWriter(sw);
-    	
-    	inventoryItem.RemoveStock(1);
 		player.Status.RemoveHealth(50);
 		player.Status.AddHunger(30);
-		pw.println( inventoryItem.GetUseMessage() );
 	}
 }
