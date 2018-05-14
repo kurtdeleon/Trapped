@@ -43,20 +43,6 @@ public class Chamber10 extends BaseChamber implements ChamberBehavior {
         return sw.toString();
 	}
 
-	@Override
-	public List<String> GetCommands() {	
-		return super.GetCommands();
-	}
-	
-	@Override
-	public List<String> GetRoomItems() {
-		return super.GetRoomItems();
-	}
-	
-	@Override
-	public List<String> GetInventoryList() {
-		return super.GetInventoryList();
-	}
 
 	@Override
 	@Command(command="explore")

@@ -73,16 +73,6 @@ public class Chamber2 extends BaseChamber implements ChamberBehavior {
 		return commands;
 	}
 	
-	@Override
-	public List<String> GetRoomItems() {
-		return super.GetRoomItems();
-	}
-
-	@Override
-	public List<String> GetInventoryList() {
-		return super.GetInventoryList();
-	}
-	
 	@Command(command="investigate")
 	public String Investigate()
 	{

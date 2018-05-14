@@ -1,3 +1,7 @@
-/player/
-/item/
+/annotation/
+/cave/
 /chamber/
+/gui/
+/item/
+/player/
+/proxy/

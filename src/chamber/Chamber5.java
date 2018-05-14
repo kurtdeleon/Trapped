@@ -2,12 +2,9 @@ package chamber;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Random;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
 import annotation.Chamber;
@@ -55,20 +52,6 @@ public class Chamber5 extends BaseChamber implements ChamberBehavior {
         return sw.toString();
 	}
 
-	@Override
-	public List<String> GetCommands() {	
-		return super.GetCommands();
-	}
-	
-	@Override
-	public List<String> GetRoomItems() {
-		return super.GetRoomItems();
-	}
-	
-	@Override
-	public List<String> GetInventoryList() {
-		return super.GetInventoryList();
-	}
 
 	@Override
 	@Command(command="explore")
@@ -125,7 +108,6 @@ public class Chamber5 extends BaseChamber implements ChamberBehavior {
 		
 		while ( !hasPlayed )
 		{
-			//TODO game stuff here
 			JOptionPane.showMessageDialog(null, "A genie appears... \nHe now wants you to prove your prowess in solving math problems.", "Poof!", JOptionPane.INFORMATION_MESSAGE);
 			JOptionPane.showMessageDialog(null, "You can DIE by playing this game.", "A word of warning", JOptionPane.WARNING_MESSAGE);
 			
@@ -179,14 +161,6 @@ public class Chamber5 extends BaseChamber implements ChamberBehavior {
 			hasPlayed = true; //exit condition
 			
 		}
-		
-		/*
-		 * This is a time-based game.
-		 * A genie appears and demands the player to answer mathematical questions.
-		 * Yung medyo madali lang. 2 digit x 1 digit. Give them 5 questions, 5 seconds to answer.
-		 * Para may thrill, if correct: +15 health, +15 hunger. if wrong: -20 health, -20 hunger.
-		 * They can die from this. :P
-		 */
 	}
 
 }
