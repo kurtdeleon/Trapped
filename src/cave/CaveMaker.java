@@ -27,6 +27,7 @@ public class CaveMaker {
 	private Object currentChamber;
 	private List<String> listOfAllClasses;
 	private List<String> listOfAllInterceptors;
+	private SessionState currentState;
 	
 	private String GetInterceptor(String code) {
 		
@@ -150,6 +151,8 @@ public class CaveMaker {
 		LoadChamberMethodsAndFields();
 		
 		currentChamber = chamberMap.get( Chamber1.class );
+		
+		currentState = new UnregisteredSessionState();
 //		PrintDescription();
 	}
 	
@@ -163,6 +166,18 @@ public class CaveMaker {
 		Method met3 = currentChamber.getClass().getDeclaredMethod("GetRoomItems");
 		System.out.println( met2.invoke(currentChamber) );	
 		System.out.println( met3.invoke(currentChamber) );*/
+	}
+	
+	public String getSessionInfo() {
+		if (currentState instanceof RegisteredSessionState) {
+			System.out.println("registered");
+			return ((RegisteredSessionState) currentState).getPlayerName();
+		} else
+			return null;
+	}
+	
+	public void register(String name) {
+		currentState = new RegisteredSessionState(name);
 	}
 	
 	public String Move(String direction)

@@ -10,6 +10,7 @@ import java.util.*;
 import cave.CaveMaker;
 import chamber.BaseChamber;
 import chamber.ChamberBehavior;
+import player.Status;
 
 public class TrappedFrame extends JFrame {
 
@@ -35,49 +36,64 @@ public class TrappedFrame extends JFrame {
     }
     
     public void updateAll(CaveMaker cv) throws Exception {
-		Class cm = Class.forName("cave.CaveMaker");
-		Field cur = cm.getDeclaredField("currentChamber");
-		cur.setAccessible(true);
-		ChamberBehavior bc = (ChamberBehavior) cur.get(cv);
-		
-		String[] room = bc.getClass().getName().split("r");
-//		System.out.println(Arrays.toString(room));
-		updateLocationLabel("You are now in Chamber " + room[2]);
-		
-		String desc = bc.GetDescription();
-		if (!desc.startsWith("You are now"))
-			updateOutput(desc);
-		updateCmdsList(bc.GetCommands().stream().toArray(String[]::new));
-		updateRoomItemsList(bc.GetRoomItems().stream().toArray(String[]::new));
-		updateInventoryList(bc.GetInventoryList().stream().toArray(String[]::new));
-		updateHpBar(player.Status.GetHealth());
-		updateHungerBar(player.Status.GetHunger());
+    	String player = cave.getSessionInfo();
+    	if (player == null) {
+    		updateTimerBar("Unregistered");
+    		String unregMsg = "Before playing the game, please REGISTER first.\n";
+    		updateOutput(unregMsg);
+    	} else {
+			Class cm = Class.forName("cave.CaveMaker");
+			Field cur = cm.getDeclaredField("currentChamber");
+			cur.setAccessible(true);
+			ChamberBehavior bc = (ChamberBehavior) cur.get(cv);
+			
+			String[] room = bc.getClass().getName().split("r");
+	//		System.out.println(Arrays.toString(room));
+			updateLocationLabel("You are now in Chamber " + room[2]);
+			
+			String desc = bc.GetDescription();
+			if (!desc.startsWith("You are now"))
+				updateOutput(desc);
+			updateCmdsList(bc.GetCommands().stream().toArray(String[]::new));
+			updateRoomItemsList(bc.GetRoomItems().stream().toArray(String[]::new));
+			updateInventoryList(bc.GetInventoryList().stream().toArray(String[]::new));
+			updateHpBar(Status.GetHealth());
+			updateHungerBar(Status.GetHunger());
+			updateTimerBar("Registered as " + player);
+    	}
     }
 
     public void sendInput(String inputCmd) throws Exception {
-    	
     	String inp = input.getText();
-    	if ( inp.equalsIgnoreCase("exit") ) {
+    	if ( inp.equalsIgnoreCase("quit") ) {
     		JOptionPane.showMessageDialog(null, "TRAPPED is now closing. Thanks for playing.\n- Kurt de Leon & Brian Guadalupe");
     		System.exit(0);
 		} else {
-			if (!chamber.GameState.PLAYER_DEAD) {
-				int index = inp.indexOf(' ');
-				
-				if (index > -1)	{
-					String action = inp.substring( 0, index );
-					String subject = inp.substring( index + 1 );
+			if (cave.getSessionInfo() == null) { // not registered
+				String[] sp = inp.split("\\s+");
+				if (sp[0].equals("register")) {
+					cave.register(sp[1]);
+					updateAll(cave);
+				} else {
+					updateOutput("Can't do that yet, REGISTER first!");
+				}
+			} else {
+				if (!chamber.GameState.PLAYER_DEAD) {
+					int index = inp.indexOf(' ');
 					
-					if ( action.equalsIgnoreCase("go") || action.equalsIgnoreCase("move") )	{
-						updateOutput(cave.Move( subject ));
+					if (index > -1)	{
+						String action = inp.substring( 0, index );
+						String subject = inp.substring( index + 1 );
+						if ( action.equalsIgnoreCase("go") || action.equalsIgnoreCase("move") )	{
+							updateOutput(cave.Move( subject ));
+						} else {
+							updateOutput(cave.Perform( action, subject ));
+						}
 					} else {
-						updateOutput(cave.Perform( action, subject ));
+						updateOutput(cave.Perform( inp, null ));
 					}
+					updateAll(cave);
 				}
-				else {
-					updateOutput(cave.Perform( inp, null ));
-				}
-				updateAll(cave);
 			}
 		}
     }
@@ -110,17 +126,17 @@ public class TrappedFrame extends JFrame {
     }
     
     public void layoutFrame() {
-    	locationLabel = new JLabel("You are now in CHAMBER 1.");
-        hpBar = new JTextField("HP:");
-        hungerBar = new JTextField("Hunger:");
+    	locationLabel = new JLabel("------------------------");
+        hpBar = new JTextField("HP: 0");
+        hungerBar = new JTextField("Hunger: 0");
         inventoryLabel = new JLabel("Your Inventory");
-        inventoryList = new JList<String>(new String[]{"inventory", "goes here"});
+        inventoryList = new JList<String>(new String[]{});
         timerBar = new JTextField("");
         output = new JTextArea("");
         input = new JTextField("", 50);
         submit = new JButton("Submit");
         cmdsLabel = new JLabel("Available Commands");
-        cmdsList = new JList<String>(new String[]{"available","commands","go here"});
+        cmdsList = new JList<String>(new String[]{});
         roomItemsLabel = new JLabel("Chamber Items");
         roomItemsList = new JList<String>(new String[]{});
 
