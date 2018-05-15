@@ -8,19 +8,17 @@ public class SaveDataManager {
 	
 	public SaveDataManager()
 	{
-		savefolder = new File("your/path");
+		savefolder = new File("savedata");
 		saveFiles = savefolder.listFiles();
 	}
 
 	public File GetSaveData( String username )
 	{
 		for (File file : saveFiles) {
-		    if ( file.getName().equalsIgnoreCase( username )) {
+		    if ( file.getName().equalsIgnoreCase( username+".txt" )) {
 		        return file;
 		    }
 		}
-		
 		return null;
 	}
-	
 }

@@ -1,5 +1,6 @@
 package chamber;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface ChamberBehavior {
@@ -11,4 +12,5 @@ public interface ChamberBehavior {
 	public String Explore();
 	public String Use(String item);
 	public String Take(String item);
+
 }

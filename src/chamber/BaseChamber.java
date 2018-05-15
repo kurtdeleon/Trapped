@@ -9,7 +9,7 @@ import java.util.List;
 
 import annotation.Command;
 import annotation.Direction;
-import player.Item;
+import item.Item;
 
 public class BaseChamber {
 	
@@ -111,108 +111,29 @@ public class BaseChamber {
 			}
 			else
 			{
-				/*
-				 * ADD HERE THE EFFECTS OF USING GLOBAL ITEMS
-				 * ADD HERE THE EFFECTS OF USING GLOBAL ITEMS
-				 * ADD HERE THE EFFECTS OF USING GLOBAL ITEMS
-				 * ADD HERE THE EFFECTS OF USING GLOBAL ITEMS
-				 */
-				if ( inventoryItem.CheckIfItemName("ration") )
-				{
-					if ( inventoryItem.HasStock() )
-					{
-						inventoryItem.RemoveStock(1);
-						player.Status.AddHealth(80);
-						pw.println( inventoryItem.GetUseMessage() );
+				for (Field fld : player.Inventory.class.getDeclaredFields()) {
+					if ( fld.getType().equals(Item.class) ) {
+						Item tmp = (Item) fld.get(null);
+						String mainName = (String) (tmp.getClass().getSuperclass().getDeclaredMethod("GetMainItemName").invoke(tmp));
+						
+						if (inventoryItem.CheckIfItemName(mainName)) {
+							if (inventoryItem.HasStock()) {
+								// do the item-specific effect if any
+								try {
+									Method m = tmp.getClass().getMethod("doEffect");
+									m.invoke(tmp);
+									inventoryItem.RemoveStock(1);
+									pw.println( inventoryItem.GetUseMessage() );
+								} catch (NoSuchMethodException e) {
+									pw.println("Can't do that.");
+								}
+								
+							} else {
+								pw.println( inventoryItem.GetNoSupplyMessage() );
+							}
+
+						}
 					}
-					else
-					{
-						pw.println( inventoryItem.GetNoSupplyMessage() );
-					}
-				}
-				else if ( inventoryItem.CheckIfItemName("bandage") )
-				{
-					if ( inventoryItem.HasStock() )
-					{
-						inventoryItem.RemoveStock(1);
-						player.Status.AddHunger(80);
-						pw.println( inventoryItem.GetUseMessage() );
-					}
-					else
-					{
-						pw.println( inventoryItem.GetNoSupplyMessage() );
-					}
-				}
-				else if ( inventoryItem.CheckIfItemName("leaf") )
-				{
-					if ( inventoryItem.HasStock() )
-					{
-						inventoryItem.RemoveStock(1);
-						player.Status.AddHealth(10);
-						pw.println( inventoryItem.GetUseMessage() );
-					}
-					else
-					{
-						pw.println( inventoryItem.GetNoSupplyMessage() );
-					}
-				}
-				else if ( inventoryItem.CheckIfItemName("white mushroom") )
-				{
-					if ( inventoryItem.HasStock() )
-					{
-						inventoryItem.RemoveStock(1);
-						player.Status.RemoveHealth(30);
-						player.Status.RemoveHunger(20);
-						pw.println( inventoryItem.GetUseMessage() );
-					}
-					else
-					{
-						pw.println( inventoryItem.GetNoSupplyMessage() );
-					}
-				}
-				else if ( inventoryItem.CheckIfItemName("cockroach") )
-				{
-					if ( inventoryItem.HasStock() )
-					{
-						inventoryItem.RemoveStock(1);
-						player.Status.RemoveHealth(50);
-						player.Status.AddHunger(30);
-						pw.println( inventoryItem.GetUseMessage() );
-					}
-					else
-					{
-						pw.println( inventoryItem.GetNoSupplyMessage() );
-					}
-				}
-				else if ( inventoryItem.CheckIfItemName("poop") )
-				{
-					if ( inventoryItem.HasStock() )
-					{
-						inventoryItem.RemoveStock(1);
-						pw.println( inventoryItem.GetUseMessage() );
-						GameState.PLAYER_DEAD = true;
-					}
-					else
-					{
-						pw.println( inventoryItem.GetNoSupplyMessage() );
-					}
-				}
-				else if ( inventoryItem.CheckIfItemName("berry") )
-				{
-					if ( inventoryItem.HasStock() )
-					{
-						inventoryItem.RemoveStock(1);
-						player.Status.AddHunger(30);
-						pw.println( inventoryItem.GetUseMessage() );
-					}
-					else
-					{
-						pw.println( inventoryItem.GetNoSupplyMessage() );
-					}
-				}
-				else
-				{
-					pw.println("Can't do that.");
 				}
 			}
 		} 
@@ -231,6 +152,7 @@ public class BaseChamber {
 		{
 			Item roomItem = GetItem( item );
 			Item inventoryItem = player.Inventory.GetItem( item );
+
 			
 			if ( roomItem == null || inventoryItem == null )
 			{

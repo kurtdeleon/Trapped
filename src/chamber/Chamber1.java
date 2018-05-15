@@ -7,7 +7,10 @@ import java.util.List;
 import annotation.Chamber;
 import annotation.Command;
 import annotation.Direction;
-import player.Item;
+import item.Bandage;
+import item.Item;
+import item.Jade;
+import item.Ration;
 
 @Chamber
 public class Chamber1 extends BaseChamber implements ChamberBehavior {
@@ -16,15 +19,9 @@ public class Chamber1 extends BaseChamber implements ChamberBehavior {
 	private boolean hasExplored = false;
 	private int timesPlayerPouredWater = 0;
 	
-	private Item RATIONS = new Item( new String[] {"rations", "ration", "food"}, 
-			2, false, "RATIONS (2) acquired.", "", 
-			"You have already taken the RATIONS earlier." );
-	private Item BANDAGES = new Item( new String[] {"bandages", "bandage", "medicine"}, 
-			1, false, "BANDAGES (1) acquired.", "", 
-			"You have already taken the BANDAGES earlier." );
-	private Item JADE = new Item( new String[] {"jade", "jade piece"}, 
-			1, false, "JADE (1) acquired.", "", 
-			"You have already taken the JADE you found.");
+	private Item RATIONS = new Ration(1);
+	private Item BANDAGES = new Bandage(1);
+	private Item JADE = new Jade(1);
 	
 	@Direction(direction="north", accessible=false, accessMessage="Clearing is too high to reach. Must find another way to get there...")
 	private Chamber4 north;
@@ -76,16 +73,6 @@ public class Chamber1 extends BaseChamber implements ChamberBehavior {
 		}
 		
 		return commands;
-	}
-	
-	@Override
-	public List<String> GetRoomItems() {
-		return super.GetRoomItems();
-	}
-
-	@Override
-	public List<String> GetInventoryList() {
-		return super.GetInventoryList();
 	}
 	
 	@Override

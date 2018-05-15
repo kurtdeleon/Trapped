@@ -7,7 +7,9 @@ import java.util.List;
 import annotation.Chamber;
 import annotation.Command;
 import annotation.Direction;
-import player.Item;
+import item.BrokenBoat;
+import item.Item;
+import item.Water;
 
 @Chamber
 public class Chamber4 extends BaseChamber implements ChamberBehavior {
@@ -15,13 +17,8 @@ public class Chamber4 extends BaseChamber implements ChamberBehavior {
 	private boolean hasAccessed = false;
 	private boolean hasExplored = false;
 	
-	private Item BROKEN_BOAT = new Item( new String[] {"broken boat", "broken vessel", "broken ship", "broken watercraft"}, 
-			1, false, "BROKEN BOAT (1) acquired.", "", 
-			"You have already taken the broken boat." );
-	
-	private Item WATER = new Item( new String[]  {"water", "liquid"}, 
-			1, false, "WATER (1) acquired.", "", 
-			"You have already taken the broken boat." );
+	private Item BROKEN_BOAT = new BrokenBoat(1);
+	private Item WATER = new Water(1);
 	
 	@Direction(direction="north", accessible=true, accessMessage="")
 	private Chamber5 north;
@@ -72,16 +69,7 @@ public class Chamber4 extends BaseChamber implements ChamberBehavior {
 		
 		return commands;
 	}
-	
-	@Override
-	public List<String> GetRoomItems() {
-		return super.GetRoomItems();
-	}
 
-	@Override
-	public List<String> GetInventoryList() {
-		return super.GetInventoryList();
-	}
 	
 	@Override
 	@Command(command="explore")
@@ -175,7 +163,7 @@ public class Chamber4 extends BaseChamber implements ChamberBehavior {
 		
 		return "Attach what?\n";
 	}
-	
+
 	@Override
 	public String SaveRoomData() {
 		return super.SaveRoomData();

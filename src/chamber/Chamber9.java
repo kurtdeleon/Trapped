@@ -8,7 +8,9 @@ import annotation.Chamber;
 import annotation.Command;
 import annotation.Direction;
 import annotation.Locked;
-import player.Item;
+import item.Item;
+import item.Leaf;
+import item.Vine;
 
 @Chamber
 @Locked(code="chamber9-000001")
@@ -17,13 +19,8 @@ public class Chamber9 extends BaseChamber implements ChamberBehavior {
 	private boolean hasAccessed = false;
 	private boolean hasExplored = false;
 	
-	private Item VINES = new Item( new String[] {"vine", "vines", "tough vines", "rope"}, 
-			1, false, "VINES (1) acquired.", "", 
-			"Small vines exist where you took the tough ones earlier." );
-	
-	private Item LEAVES = new Item( new String[] {"leaf", "leaves"}, 
-			5, false, "LEAVES (5) acquired.", "", 
-			"There are no more leaves." );
+	private Item VINES = new Vine(2);
+	private Item LEAVES = new Leaf(5);
 
 	@Direction(direction="west", accessible=true, accessMessage="")
 	private Chamber1 west;
@@ -59,16 +56,6 @@ public class Chamber9 extends BaseChamber implements ChamberBehavior {
 		}
 		
 		return commands;
-	}
-	
-	@Override
-	public List<String> GetRoomItems() {
-		return super.GetRoomItems();
-	}
-
-	@Override
-	public List<String> GetInventoryList() {
-		return super.GetInventoryList();
 	}
 
 	@Override

@@ -13,11 +13,10 @@ import java.util.Scanner;
 
 import annotation.Chamber;
 import annotation.Locked;
-import player.Item;
+import item.Item;
 
 public class ChamberManager {
 	
-	private File save;
 	private Scanner sc;
 	
 	private String GetChamberData( HashMap<Class<?>, Object> chamberMap )
@@ -63,7 +62,6 @@ public class ChamberManager {
 		StringWriter sw = new StringWriter();
     	PrintWriter pw = new PrintWriter(sw);
     	
-		pw.print( player.Status.name + " ");
 		pw.print( player.Status.GetCurrentChamber() + " ");
 		pw.print( player.Status.GetHealth() + " ");
 		pw.println( player.Status.GetHunger() );
@@ -76,11 +74,11 @@ public class ChamberManager {
 		return player.Inventory.SaveInventoryState();
 	}
 	
-	public void SaveData( HashMap<Class<?>, Object> chamberMap )
+	public void SaveData( HashMap<Class<?>, Object> chamberMap, String username )
 	{
 		PrintWriter writer;
 		try {
-			writer = new PrintWriter("savefile.txt", "UTF-8");
+			writer = new PrintWriter( "savedata/" + username + ".txt", "UTF-8");
 			writer.println( GetChamberData( chamberMap ).trim() );
 			writer.println( GetPlayerStatus().trim() );
 			writer.println( GetPlayerInventory().trim() );
@@ -99,22 +97,21 @@ public class ChamberManager {
 	 * LOADING METHODS BELOW
 	 */
 
-	public HashMap<Class<?>, Object> LoadData( HashMap<Class<?>, Object> chamberMap ) throws IllegalArgumentException, IllegalAccessException
+	public HashMap<Class<?>, Object> LoadData( HashMap<Class<?>, Object> chamberMap, File saveData ) throws IllegalArgumentException, IllegalAccessException
 	{	
 		try {
-			save = new File("savefile.txt");
-			sc = new Scanner(save);
-		} catch (FileNotFoundException e) { e.printStackTrace(); }
-		
+			sc = new Scanner( saveData );
+		} catch (FileNotFoundException e1) { e1.printStackTrace(); }
+			
 		try {
 			chamberMap = LoadChamberData( chamberMap );
+			LoadPlayerStatus();
+			LoadPlayerInventory();
 		} catch (ClassNotFoundException | NoSuchFieldException | SecurityException | IllegalArgumentException
 				| IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 			e.printStackTrace();
 		}
-		LoadPlayerStatus();
-		LoadPlayerInventory();
-		
+			
 		return chamberMap;
 	}
 	
@@ -148,7 +145,7 @@ public class ChamberManager {
 				while ( !sc.hasNext("---") )
 				{
 					String fieldName = sc.nextLine();
-					System.out.println(fieldName);
+					//System.out.println(fieldName);
 					Field fld = chamberClass.getDeclaredField( fieldName );
 					fld.setAccessible(true);
 					
@@ -156,7 +153,7 @@ public class ChamberManager {
 					if ( fieldClass == Boolean.TYPE )
 					{
 						boolean newVal = sc.nextBoolean();
-						System.out.println(fieldClass + " " + newVal);
+						//System.out.println(fieldClass + " " + newVal);
 						fld.set( chamberInstance, newVal );
 					}
 					else if ( fieldClass == Integer.TYPE )
@@ -164,11 +161,11 @@ public class ChamberManager {
 						int newVal = sc.nextInt();
 						fld.setInt( chamberInstance, newVal );
 					}
-					else if ( fieldClass == Item.class )
+					else if ( fieldClass.getSuperclass() == Item.class || fieldClass == Item.class )
 					{
 						int newVal = sc.nextInt();
 						Object fieldValue = fld.get( chamberInstance );
-						Method setValue = fieldValue.getClass().getDeclaredMethod( "SetStock", Integer.TYPE );
+						Method setValue = fieldValue.getClass().getSuperclass().getDeclaredMethod( "SetStock", Integer.TYPE );
 						setValue.invoke( fieldValue, newVal );
 					}
 					sc.nextLine();
@@ -182,7 +179,6 @@ public class ChamberManager {
 	
 	private void LoadPlayerStatus()
 	{
-		player.Status.name = sc.next();
 		player.Status.SetCurrentChamber( sc.next() );
 		player.Status.SetHealth( sc.nextInt() );
 		player.Status.SetHunger( sc.nextInt() );
@@ -195,10 +191,11 @@ public class ChamberManager {
 		{
 			String fieldName = sc.nextLine();
 			int value = sc.nextInt();
+			
 			sc.nextLine();
-			//System.out.println( fieldName + " " + value);
 			Item tempItem = (Item) player.Inventory.GetItem( fieldName );
 			tempItem.SetStock( value );
+			//System.out.println( fieldName + " " + value + " // invent stuff");
 		}
 	}
 }

@@ -13,6 +13,8 @@ import annotation.Locked;
 @Locked(code="chamber11-000001")
 public class Chamber11 extends BaseChamber implements ChamberBehavior {
 
+	private boolean hasAccessed = false;
+	
 	@Direction(direction="east", accessible=false, accessMessage="You don't have enough energy to go back.")
 	private Chamber10 east;
 	
@@ -21,30 +23,25 @@ public class Chamber11 extends BaseChamber implements ChamberBehavior {
 		StringWriter sw = new StringWriter();
     	PrintWriter pw = new PrintWriter(sw);
     	
-	    pw.println("You crawl towards a group of spelunkers having breakfast.");
-	    pw.println("They notice you, and they come running.");
-	    pw.println("Thank God.");
-	    pw.println("I can finally take a rest from all this bullshit.");
-	    pw.println("Why did I end up there anyway...?");
-	    pw.println();
+    	if (hasAccessed)
+		{
+			pw.println("You are now in CHAMBER 11.");
+	        pw.println();
+		}
+		else
+		{
+			hasAccessed = true;
+			pw.println("You crawl towards a group of spelunkers having breakfast.");
+		    pw.println("They notice you, and they come running.");
+		    pw.println("Thank God.");
+		    pw.println("I can finally take a rest from all this bullshit.");
+		    pw.println("Why did I end up there anyway...?");
+		    pw.println();
+		}
 		
         return sw.toString();
 	}
 
-	@Override
-	public List<String> GetCommands() {	
-		return super.GetCommands();
-	}
-	
-	@Override
-	public List<String> GetRoomItems() {
-		return super.GetRoomItems();
-	}
-
-	@Override
-	public List<String> GetInventoryList() {
-		return super.GetInventoryList();
-	}
 
 	@Override
 	@Command(command="explore")
@@ -54,7 +51,7 @@ public class Chamber11 extends BaseChamber implements ChamberBehavior {
 	
 	@Command(command="rest")
 	public String Rest() {
-		chamber.GameState.PLAYER_DEAD = true; //not rly pero hehe
+		chamber.GameState.PLAYER_DEAD = true;
 		return "You're too tired to think. The only thing you're thinking of is finally escaping.\nYou black out.";
 	}
 	

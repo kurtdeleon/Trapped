@@ -12,13 +12,13 @@ import annotation.Locked;
 @Chamber
 @Locked(code="chamber8-000001")
 public class Chamber8 extends BaseChamber implements ChamberBehavior {
+	
+	private boolean hasAccessed = false;
 
 	@Direction(direction="north", accessible=false, accessMessage="I don't think your flimsy boat can handle upward streams.")
 	private Chamber4 north;
 	@Direction(direction="south", accessible=true, accessMessage="")
 	private Chamber10 south;
-	
-	private boolean hasAccessed = false;
 	
 	@Override
 	public String GetDescription() {
@@ -42,21 +42,6 @@ public class Chamber8 extends BaseChamber implements ChamberBehavior {
         return sw.toString();
 	}
 
-	@Override
-	public List<String> GetCommands() {	
-		return super.GetCommands();
-	}
-	
-	@Override
-	public List<String> GetRoomItems() {
-		return super.GetRoomItems();
-	}
-
-	@Override
-	public List<String> GetInventoryList() {
-		return super.GetInventoryList();
-	}
-	
 	@Override
 	@Command(command="explore")
 	public String Explore() {

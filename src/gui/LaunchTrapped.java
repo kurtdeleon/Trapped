@@ -8,7 +8,7 @@ public class LaunchTrapped {
         JFrame fr = new TrappedFrame();
         fr.setSize(900,500);
         fr.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        fr.setTitle("Trapped");
+        fr.setTitle("Trapped 2.0");
         fr.setLocationRelativeTo(null);
         fr.setVisible(true);
     }

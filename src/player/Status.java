@@ -1,9 +1,6 @@
 package player;
 
-import chamber.Chamber1;
-
 public class Status {
-	public static String name = "Kurt";
 	private static int health = 40;
 	private static int hunger = 80;
 	private static String currentChamber = "chamber.Chamber1";
@@ -50,6 +47,7 @@ public class Status {
 			chamber.GameState.PLAYER_DEAD = true;
 		}
 	}
+	
 	public static String GetCurrentChamber() 
 	{
 		return currentChamber;

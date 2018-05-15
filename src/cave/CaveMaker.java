@@ -1,17 +1,17 @@
 package cave;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 
 import annotation.Locked;
+import chamber.BaseChamber;
 import annotation.Chamber;
 import annotation.Command;
 import annotation.Direction;
 import annotation.Interceptor;
-import chamber.BaseChamber;
-import chamber.Chamber1;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.DynamicType.Builder;
@@ -28,8 +28,17 @@ public class CaveMaker {
 	private Object currentChamber;
 	private List<String> listOfAllClasses;
 	private List<String> listOfAllInterceptors;
+	private SessionState currentState;
 	private ChamberManager cm;
 	private SaveDataManager sdm;
+	
+	public CaveMaker()
+	{
+		chamberMap = new HashMap<Class<?>, Object>();
+		currentState = new UnregisteredSessionState();
+		cm = new ChamberManager();
+		sdm = new SaveDataManager();
+	}
 	
 	private String GetInterceptor(String code) {
 		
@@ -57,7 +66,6 @@ public class CaveMaker {
 	{
 		for (String className : listOfAllClasses)
 		{
-			//System.out.println(className);
 			try
 			{
 				Class<?> chamberClass = Class.forName(className);
@@ -100,6 +108,8 @@ public class CaveMaker {
 						}
 						catch (Exception e){ System.out.println("A locked room has been detected."); }
 					}
+					
+					//System.out.println(chamberInstance.getClass().toString()); //TESTER
 					chamberMap.put( chamberClass, chamberInstance );
 				}
 			}
@@ -138,10 +148,6 @@ public class CaveMaker {
 	
 	public void Load() throws Exception
 	{
-		chamberMap = new HashMap<Class<?>, Object>();
-		cm = new ChamberManager();
-		sdm = new SaveDataManager();
-		
 		FastClasspathScanner scannerClass = new FastClasspathScanner( chamber.Chamber1.class.getPackage().getName() );
 		ScanResult resultClass = scannerClass.scan();
 		listOfAllClasses = resultClass.getNamesOfAllClasses();
@@ -153,23 +159,41 @@ public class CaveMaker {
 		LoadChambers();
 		LoadChamberMethodsAndFields();
 		
-		// tries to load from savefile
-		chamberMap = cm.LoadData( chamberMap );
+		Class<?> chamberClass = Class.forName( player.Status.GetCurrentChamber() );
+		currentChamber = chamberMap.get( chamberClass );
+	}
+	
+	public void ReloadChambers() throws Exception
+	{
+		File saveData = sdm.GetSaveData( getSessionInfo() );
+		//System.out.println( saveData.toString() );
+		if ( saveData != null ) chamberMap = cm.LoadData( chamberMap, saveData );
+		else Save();
 		
 		Class<?> chamberClass = Class.forName( player.Status.GetCurrentChamber() );
 		currentChamber = chamberMap.get( chamberClass );
-		//System.out.println( PrintDescription() );
-	}
-	
-	public void TestSave()
-	{
-		cm.SaveData( chamberMap );
 	}
 	
 	public String PrintDescription() throws Exception
 	{
 		Method met = currentChamber.getClass().getDeclaredMethod("GetDescription");
 		return (String) met.invoke(currentChamber);
+	}
+	
+	public String getSessionInfo() {
+		if (currentState instanceof RegisteredSessionState) {
+			//System.out.println("registered");
+			return ((RegisteredSessionState) currentState).getPlayerName();
+		} else
+			return null;
+	}
+	
+	public void register(String name) {
+		currentState = new RegisteredSessionState(name);
+	}
+	
+	public void Save() {
+		cm.SaveData( chamberMap, getSessionInfo() );
 	}
 	
 	public String Move(String direction)

@@ -7,7 +7,9 @@ import java.util.List;
 import annotation.Chamber;
 import annotation.Command;
 import annotation.Direction;
-import player.Item;
+import item.Item;
+import item.Vine;
+import item.WhiteMushroom;
 
 @Chamber
 public class Chamber2 extends BaseChamber implements ChamberBehavior {
@@ -16,13 +18,8 @@ public class Chamber2 extends BaseChamber implements ChamberBehavior {
 	private boolean hasExplored = false;
 	private boolean hasInvestigated = false;
 	
-	private Item VINES = new Item( new String[] {"vine", "vines", "tough vines", "rope"}, 
-			3, false, "VINES (3) acquired.", "", 
-			"Small vines exist where you took the tough ones earlier." );
-	
-	private Item WHITE_MUSHROOM = new Item( new String[] {"white mushroom"}, 
-			1, false, "WHITE MUSHROOM (1) acquired.", "", 
-			"You have already put the white mushrooms in your backpack." );
+	private Item VINES = new Vine(3);
+	private Item WHITE_MUSHROOM = new WhiteMushroom(1);
 
 	@Direction(direction="north", accessible=true, accessMessage="")
 	private Chamber3 north;
@@ -71,16 +68,6 @@ public class Chamber2 extends BaseChamber implements ChamberBehavior {
 		}
 		
 		return commands;
-	}
-	
-	@Override
-	public List<String> GetRoomItems() {
-		return super.GetRoomItems();
-	}
-
-	@Override
-	public List<String> GetInventoryList() {
-		return super.GetInventoryList();
 	}
 	
 	@Command(command="investigate")

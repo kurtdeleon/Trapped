@@ -1,4 +1,4 @@
-package player;
+package item;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,11 +28,7 @@ public class Item {
 	}
 	
 	public boolean CheckIfItemName(String str) {
-		if ( names.contains(str.toLowerCase()) )
-		{
-			return true;
-		}
-		return false;
+		return names.contains(str.toLowerCase());
 	}
 
 	public int GetStock() {
@@ -52,10 +48,7 @@ public class Item {
 	}
 	
 	public boolean HasStock(){
-		if ( stock <= 0 ) {
-			return false;
-		}
-		return true;
+		return stock > 0;
 	}
 
 	public boolean IsInventoryItem() {
