@@ -1,4 +1,26 @@
 11
+chamber.Chamber11 false
+---
+chamber.Chamber5 true 
+hasAccessed
+false
+hasPlayed
+false
+gameStarted
+false
+genieSummoned
+false
+rand
+java.util.Random@2718ca0e
+n1
+0
+n2
+0
+ans
+0
+count
+0
+---
 chamber.Chamber2 true 
 hasAccessed
 true
@@ -10,6 +32,22 @@ VINES
 3
 WHITE_MUSHROOM
 0
+---
+chamber.Chamber3 true 
+hasAccessed
+true
+hasExplored
+true
+hasUsedStickySubstance
+false
+hasTriedToTakePoop
+0
+hasTriedThrowing
+false
+COCKROACH
+1
+POOP
+1
 ---
 chamber.Chamber7 true 
 hasAccessed
@@ -33,6 +71,18 @@ VINES
 LEAVES
 0
 ---
+chamber.Chamber4 true 
+hasAccessed
+true
+hasExplored
+true
+BROKEN_BOAT
+0
+WATER
+1
+---
+chamber.Chamber8 false
+---
 chamber.Chamber1 true 
 hasAccessed
 true
@@ -47,49 +97,7 @@ BANDAGES
 JADE
 1
 ---
-chamber.Chamber5 true 
-hasAccessed
-false
-hasPlayed
-false
-n1
-0
-n2
-0
-ans
-0
-timeLeft
-5
-t
-null
----
-chamber.Chamber4 true 
-hasAccessed
-true
-hasExplored
-true
-BROKEN_BOAT
-0
-WATER
-1
----
-chamber.Chamber11 false
----
-chamber.Chamber3 true 
-hasAccessed
-true
-hasExplored
-true
-hasUsedStickySubstance
-false
-hasTriedToTakePoop
-0
-hasTriedThrowing
-false
-COCKROACH
-1
-POOP
-1
+chamber.Chamber10 false
 ---
 chamber.Chamber6 true 
 hasAccessed
@@ -98,10 +106,6 @@ hasExplored
 false
 BERRY
 3
----
-chamber.Chamber8 false
----
-chamber.Chamber10 false
 ---
 chamber.Chamber1 100 80
 RATIONS

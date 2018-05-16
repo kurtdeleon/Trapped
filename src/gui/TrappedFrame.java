@@ -41,8 +41,8 @@ public class TrappedFrame extends JFrame {
     		String unregMsg = "Before playing the game, please REGISTER first.\n";
     		updateOutput(unregMsg);
     	} else {
-
     		if ( !hasLoaded ) {
+    			clearOutput();
     			cave.ReloadChambers();
     			hasLoaded = true;
     		}
@@ -75,6 +75,7 @@ public class TrappedFrame extends JFrame {
     		System.exit(0);
 		} else if  ( inp.equalsIgnoreCase("save") ) {
 			cave.Save();
+			updateOutput("Current session was successfully saved!");
 		} else {
 			if (cave.getSessionInfo() == null) { // not registered
 				String[] sp = inp.split("\\s+");
@@ -117,6 +118,9 @@ public class TrappedFrame extends JFrame {
     public static void updateOutput(String newText) {
     	String old = output.getText();
         output.setText(old + "\n" + newText);
+    }
+    public static void clearOutput() {
+    	output.setText("");
     }
     public void updateLocationLabel(String newText) {
         locationLabel.setText(newText);

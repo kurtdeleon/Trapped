@@ -1,37 +1,49 @@
 11
-chamber.Chamber11 false
----
-chamber.Chamber5 true 
-hasAccessed
-false
-hasPlayed
-false
-gameStarted
-false
-genieSummoned
-false
-rand
-java.util.Random@2718ca0e
-n1
-0
-n2
-0
-ans
-0
-count
-0
----
 chamber.Chamber2 true 
 hasAccessed
-true
+false
 hasExplored
-true
+false
 hasInvestigated
-true
+false
 VINES
 3
 WHITE_MUSHROOM
-0
+1
+---
+chamber.Chamber6 true 
+hasAccessed
+false
+hasExplored
+false
+BERRY
+3
+---
+chamber.Chamber8 false
+---
+chamber.Chamber11 false
+---
+chamber.Chamber7 true 
+hasAccessed
+false
+hasExplored
+false
+CLAY_POT
+1
+JADE
+1
+SHARP_ROCK
+1
+---
+chamber.Chamber4 true 
+hasAccessed
+false
+hasExplored
+false
+BROKEN_BOAT
+1
+WATER
+1
 ---
 chamber.Chamber3 true 
 hasAccessed
@@ -49,31 +61,25 @@ COCKROACH
 POOP
 1
 ---
-chamber.Chamber7 true 
+chamber.Chamber5 true 
 hasAccessed
 false
-hasExplored
+hasPlayed
 false
-CLAY_POT
-1
-JADE
-1
-SHARP_ROCK
-1
----
-chamber.Chamber9 false
----
-chamber.Chamber4 true 
-hasAccessed
+gameStarted
 false
-hasExplored
+genieSummoned
 false
-BROKEN_BOAT
-1
-WATER
-1
----
-chamber.Chamber8 false
+rand
+java.util.Random@6c2df38a
+n1
+0
+n2
+0
+ans
+0
+count
+0
 ---
 chamber.Chamber1 true 
 hasAccessed
@@ -83,7 +89,7 @@ true
 timesPlayerPouredWater
 0
 RATIONS
-0
+1
 BANDAGES
 1
 JADE
@@ -91,17 +97,11 @@ JADE
 ---
 chamber.Chamber10 false
 ---
-chamber.Chamber6 true 
-hasAccessed
-false
-hasExplored
-false
-BERRY
-3
+chamber.Chamber9 false
 ---
-chamber.Chamber2 100 80
+chamber.Chamber1 40 80
 RATIONS
-1
+0
 BANDAGES
 0
 JADE
@@ -109,7 +109,7 @@ JADE
 VINES
 0
 WHITE_MUSHROOM
-1
+0
 BERRY
 0
 SHARP_ROCK
