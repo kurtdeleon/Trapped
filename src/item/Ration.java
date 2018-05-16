@@ -11,6 +11,15 @@ public class Ration extends Item {
 			"You don't have any left. You feel regret for eating them so soon." );
 	}
 	
+	public Ration(int stock) {
+		 super( new String[] {"rations", "ration", "food"}, 
+			stock, 
+			false, 
+			"RATIONS (" + stock + ") acquired.", 
+			"", 
+			"You have already taken the RATIONS earlier." );
+	}
+	
 	public void doEffect() {
 		player.Status.AddHealth(80);
 	}

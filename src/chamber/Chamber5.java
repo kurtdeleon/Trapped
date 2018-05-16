@@ -2,16 +2,14 @@ package chamber;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
 import java.util.List;
 import java.util.Random;
-
-import javax.swing.*;
-import java.awt.event.*;
 
 import annotation.Chamber;
 import annotation.Command;
 import annotation.Direction;
-import gui.TrappedFrame;
+
 import player.Status;
 
 @Chamber
@@ -202,6 +200,9 @@ public class Chamber5 extends BaseChamber implements ChamberBehavior {
 		ans = n1*n2;
 		count++;
 	}
-
+	
+	@Override
+	public String SaveRoomData() {
+		return super.SaveRoomData();
+	}
 }
-

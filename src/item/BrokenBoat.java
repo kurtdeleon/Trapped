@@ -10,4 +10,13 @@ public class BrokenBoat extends Item {
 				"", 
 				"");
 	}
+
+	public BrokenBoat(int stock) {
+		super( new String[] {"broken boat", "broken vessel", "broken ship", "broken watercraft"}, 
+			stock,
+			false, 
+			"BROKEN BOAT (" + stock + ") acquired.", 
+			"", 
+			"You have already taken the broken boat." );
+	}
 }

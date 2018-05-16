@@ -10,6 +10,15 @@ public class Cockroach extends Item {
 			"It's in your stomach.");
 	}
 	
+	public Cockroach(int stock) {
+		super( new String[] {"cockroach", "insect"}, 
+			stock, 
+			false, 
+			"COCKROACH (" + stock + ") acquired.", 
+			"", 
+			"You have already taken the dead COCKROACH earlier. Why did you take it again?" );
+	}
+	
 	public void doEffect(Item inventoryItem) {
 		player.Status.RemoveHealth(50);
 		player.Status.AddHunger(30);

@@ -7,7 +7,8 @@ import java.util.List;
 import annotation.Chamber;
 import annotation.Command;
 import annotation.Direction;
-import item.Item;
+
+import item.*;
 
 @Chamber
 public class Chamber6 extends BaseChamber implements ChamberBehavior {
@@ -15,9 +16,7 @@ public class Chamber6 extends BaseChamber implements ChamberBehavior {
 	private boolean hasAccessed = false;
 	private boolean hasExplored = false;
 	
-	private Item BERRY = new Item( new String[] {"berry", "berries", "strawberries", "fruit"}, 
-			3, false, "BERRY (3) acquired.", "", 
-			"You already picked the berries earlier." );
+	private Item BERRY = new Berry(3);
 	
 	@Direction(direction="south", accessible=true, accessMessage="")
 	private Chamber3 south;
@@ -90,6 +89,11 @@ public class Chamber6 extends BaseChamber implements ChamberBehavior {
 	@Command(command="take")
 	public String Take(String item) {
 		return super.Take(item);
+	}
+	
+	@Override
+	public String SaveRoomData() {
+		return super.SaveRoomData();
 	}
 }
 

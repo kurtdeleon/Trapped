@@ -8,7 +8,8 @@ import annotation.Chamber;
 import annotation.Command;
 import annotation.Direction;
 import annotation.Locked;
-import item.Item;
+
+import item.*;
 
 @Chamber
 @Locked(code="chamber9-000001")
@@ -17,13 +18,8 @@ public class Chamber9 extends BaseChamber implements ChamberBehavior {
 	private boolean hasAccessed = false;
 	private boolean hasExplored = false;
 	
-	private Item VINES = new Item( new String[] {"vine", "vines", "tough vines", "rope"}, 
-			1, false, "VINES (1) acquired.", "", 
-			"Small vines exist where you took the tough ones earlier." );
-	
-	private Item LEAVES = new Item( new String[] {"leaf", "leaves"}, 
-			5, false, "LEAVES (5) acquired.", "", 
-			"There are no more leaves." );
+	private Item VINES = new Vine(2);
+	private Item LEAVES = new Leaf(5);
 
 	@Direction(direction="west", accessible=true, accessMessage="")
 	private Chamber1 west;
@@ -148,5 +144,10 @@ public class Chamber9 extends BaseChamber implements ChamberBehavior {
 		
 		pw.println();
 		return sw.toString();
+	}
+	
+	@Override
+	public String SaveRoomData() {
+		return super.SaveRoomData();
 	}
 }

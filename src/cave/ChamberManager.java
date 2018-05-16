@@ -1,0 +1,201 @@
+package cave;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Scanner;
+
+import annotation.Chamber;
+import annotation.Locked;
+import item.Item;
+
+public class ChamberManager {
+	
+	private Scanner sc;
+	
+	private String GetChamberData( HashMap<Class<?>, Object> chamberMap )
+	{
+		StringWriter sw = new StringWriter();
+    	PrintWriter pw = new PrintWriter(sw);
+    	
+		pw.println( chamberMap.size() );
+		for ( Object chamberInstance : chamberMap.values() ) 
+		{
+			Class<?> chamberClass = chamberInstance.getClass();			
+			
+			if ( chamberClass.isAnnotationPresent(Chamber.class) )
+		    {
+				pw.print( chamberClass.getName() + " " + "true" + " " );
+		
+				Method SaveRoomData = null;
+				try {
+					SaveRoomData = chamberClass.getDeclaredMethod("SaveRoomData");
+					SaveRoomData.setAccessible(true);
+				} catch (NoSuchMethodException | SecurityException e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					pw.println( SaveRoomData.invoke(chamberInstance) );
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					e.printStackTrace();
+				}
+		    }
+		    else
+		    {
+		    	pw.println( chamberClass.getSuperclass().getName() + " " + "false" );
+		    }
+			pw.println( "---" );
+		}
+		
+		return sw.toString();
+	}
+	
+	private String GetPlayerStatus()
+	{
+		StringWriter sw = new StringWriter();
+    	PrintWriter pw = new PrintWriter(sw);
+    	
+		pw.print( player.Status.GetCurrentChamber() + " ");
+		pw.print( player.Status.GetHealth() + " ");
+		pw.println( player.Status.GetHunger() );
+		
+		return sw.toString();
+	}
+	
+	private String GetPlayerInventory()
+	{
+		return player.Inventory.SaveInventoryState();
+	}
+	
+	public void SaveData( HashMap<Class<?>, Object> chamberMap, String username )
+	{
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter( "savedata/" + username + ".txt", "UTF-8");
+			writer.println( GetChamberData( chamberMap ).trim() );
+			writer.println( GetPlayerStatus().trim() );
+			writer.println( GetPlayerInventory().trim() );
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/* 
+	 * LOADING METHODS BELOW
+	 * LOADING METHODS BELOW
+	 * LOADING METHODS BELOW
+	 * LOADING METHODS BELOW
+	 */
+
+	public HashMap<Class<?>, Object> LoadData( HashMap<Class<?>, Object> chamberMap, File saveData ) throws IllegalArgumentException, IllegalAccessException
+	{	
+		try {
+			sc = new Scanner( saveData );
+		} catch (FileNotFoundException e1) { e1.printStackTrace(); }
+			
+		try {
+			chamberMap = LoadChamberData( chamberMap );
+			LoadPlayerStatus();
+			LoadPlayerInventory();
+		} catch (ClassNotFoundException | NoSuchFieldException | SecurityException | IllegalArgumentException
+				| IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+			e.printStackTrace();
+		}
+			
+		return chamberMap;
+	}
+	
+	private HashMap<Class<?>, Object> LoadChamberData( HashMap<Class<?>, Object> chamberMap ) throws ClassNotFoundException, NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
+	{
+		int numberOfChambers = sc.nextInt();
+		sc.nextLine();
+		
+		for ( int i = 0; i < numberOfChambers; i++ )
+		{
+			String className = sc.next();
+			
+			Class<?> chamberClass = Class.forName(className);
+			boolean isUnlocked = sc.nextBoolean();
+			sc.nextLine();
+			
+			if ( isUnlocked ) 
+			{
+				Object chamberInstance = chamberMap.get( chamberClass );
+				
+				if ( chamberInstance.getClass().getSuperclass() != Object.class && chamberInstance.getClass().getSuperclass().isAnnotationPresent(Locked.class) )
+				{
+					try {
+						//System.out.print("replaced: " + chamberInstance.toString() + " ");
+						chamberInstance = chamberInstance.getClass().getSuperclass().newInstance();
+						chamberMap.put(chamberClass, chamberInstance); // REPLACE PROXY IN CHAMBERMAP
+						//System.out.println("with " + chamberInstance.toString());
+					} catch (InstantiationException e) { e.printStackTrace(); }
+				}
+				
+				while ( !sc.hasNext("---") )
+				{
+					String fieldName = sc.nextLine();
+					//System.out.println(fieldName);
+					Field fld = chamberClass.getDeclaredField( fieldName );
+					fld.setAccessible(true);
+					
+					Class<?> fieldClass = fld.getType();
+					if ( fieldClass == Boolean.TYPE )
+					{
+						boolean newVal = sc.nextBoolean();
+						//System.out.println(fieldClass + " " + newVal);
+						fld.set( chamberInstance, newVal );
+					}
+					else if ( fieldClass == Integer.TYPE )
+					{
+						int newVal = sc.nextInt();
+						fld.setInt( chamberInstance, newVal );
+					}
+					else if ( fieldClass.getSuperclass() == Item.class || fieldClass == Item.class )
+					{
+						int newVal = sc.nextInt();
+						Object fieldValue = fld.get( chamberInstance );
+						Method setValue = fieldValue.getClass().getSuperclass().getDeclaredMethod( "SetStock", Integer.TYPE );
+						setValue.invoke( fieldValue, newVal );
+					}
+					sc.nextLine();
+				}
+			}
+			sc.nextLine(); // skip "---"
+		}
+		
+		return chamberMap;
+	}
+	
+	private void LoadPlayerStatus()
+	{
+		player.Status.SetCurrentChamber( sc.next() );
+		player.Status.SetHealth( sc.nextInt() );
+		player.Status.SetHunger( sc.nextInt() );
+		sc.nextLine();
+	}
+	
+	private void LoadPlayerInventory() throws IllegalArgumentException, IllegalAccessException
+	{
+		while ( sc.hasNext() )
+		{
+			String fieldName = sc.nextLine();
+			int value = sc.nextInt();
+			
+			sc.nextLine();
+			Item tempItem = (Item) player.Inventory.GetItem( fieldName );
+			tempItem.SetStock( value );
+			//System.out.println( fieldName + " " + value + " // invent stuff");
+		}
+	}
+}

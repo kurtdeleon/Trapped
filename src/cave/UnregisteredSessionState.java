@@ -2,7 +2,7 @@ package cave;
 
 public class UnregisteredSessionState implements SessionState {
 	public UnregisteredSessionState() {
-		System.out.println("unreg");
+
 	}
 
 	@Override

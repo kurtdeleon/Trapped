@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import annotation.Command;
+import annotation.Direction;
 import item.Item;
 
 public class BaseChamber {
@@ -175,5 +176,38 @@ public class BaseChamber {
 		catch (Exception e) { e.printStackTrace(); System.exit(1);} 
 		
 		return sw.toString();
+	}
+	
+	public String SaveRoomData()
+	{
+		StringWriter sw = new StringWriter();
+    	PrintWriter pw = new PrintWriter(sw);
+		
+		for ( Field fld : this.getClass().getDeclaredFields() )
+    	{
+			if ( fld.getAnnotation(Direction.class) == null )
+			{
+				fld.setAccessible(true);
+				pw.println();
+				try 
+				{
+					if ( fld.getType().equals(Item.class) ) 
+			    	{
+						Item tempItem = (Item) fld.get(this);
+						pw.println( fld.getName() );
+						pw.print( tempItem.GetStock() );
+			    	}
+					else
+					{
+						Object tempItem = fld.get(this);
+						pw.println( fld.getName() );
+						pw.print( tempItem );
+					}
+						
+				} catch (Exception e) {} 
+			}
+    	}
+		
+    	return sw.toString();
 	}
 }

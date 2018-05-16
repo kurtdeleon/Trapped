@@ -51,7 +51,7 @@ public class Chamber11 extends BaseChamber implements ChamberBehavior {
 	
 	@Command(command="rest")
 	public String Rest() {
-		chamber.GameState.PLAYER_DEAD = true; //not rly pero hehe
+		chamber.GameState.PLAYER_DEAD = true;
 		return "You're too tired to think. The only thing you're thinking of is finally escaping.\nYou black out.";
 	}
 	
@@ -65,5 +65,10 @@ public class Chamber11 extends BaseChamber implements ChamberBehavior {
 	@Command(command="take")
 	public String Take(String item) {
 		return super.Take(item);
+	}
+	
+	@Override
+	public String SaveRoomData() {
+		return super.SaveRoomData();
 	}
 }

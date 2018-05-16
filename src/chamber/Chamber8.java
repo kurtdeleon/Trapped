@@ -2,7 +2,6 @@ package chamber;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.List;
 
 import annotation.Chamber;
 import annotation.Command;
@@ -12,13 +11,13 @@ import annotation.Locked;
 @Chamber
 @Locked(code="chamber8-000001")
 public class Chamber8 extends BaseChamber implements ChamberBehavior {
+	
+	private boolean hasAccessed = false;
 
 	@Direction(direction="north", accessible=false, accessMessage="I don't think your flimsy boat can handle upward streams.")
 	private Chamber4 north;
 	@Direction(direction="south", accessible=true, accessMessage="")
 	private Chamber10 south;
-	
-	private boolean hasAccessed = false;
 	
 	@Override
 	public String GetDescription() {
@@ -58,5 +57,10 @@ public class Chamber8 extends BaseChamber implements ChamberBehavior {
 	@Command(command="take")
 	public String Take(String item) {
 		return super.Take(item);
+	}
+	
+	@Override
+	public String SaveRoomData() {
+		return super.SaveRoomData();
 	}
 }

@@ -5,10 +5,8 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.lang.reflect.*;
-import java.util.*;
 
 import cave.CaveMaker;
-import chamber.BaseChamber;
 import chamber.ChamberBehavior;
 import player.Status;
 
@@ -25,14 +23,15 @@ public class TrappedFrame extends JFrame {
     JLabel locationLabel, inventoryLabel, cmdsLabel, roomItemsLabel;
     
     CaveMaker cave;
+    boolean hasLoaded;
 
     public TrappedFrame() throws Exception {
         layoutFrame();
+        hasLoaded = false;
         
         cave = new CaveMaker();
 		cave.Load();
 		updateAll(cave);
-		
     }
     
     public void updateAll(CaveMaker cv) throws Exception {
@@ -42,13 +41,19 @@ public class TrappedFrame extends JFrame {
     		String unregMsg = "Before playing the game, please REGISTER first.\n";
     		updateOutput(unregMsg);
     	} else {
-			Class cm = Class.forName("cave.CaveMaker");
+
+    		if ( !hasLoaded ) {
+    			cave.ReloadChambers();
+    			hasLoaded = true;
+    		}
+			Class<?> cm = Class.forName("cave.CaveMaker");
+
 			Field cur = cm.getDeclaredField("currentChamber");
 			cur.setAccessible(true);
 			ChamberBehavior bc = (ChamberBehavior) cur.get(cv);
 			
 			String[] room = bc.getClass().getName().split("r");
-	//		System.out.println(Arrays.toString(room));
+
 			updateLocationLabel("You are now in Chamber " + room[2]);
 			
 			String desc = bc.GetDescription();
@@ -68,6 +73,8 @@ public class TrappedFrame extends JFrame {
     	if ( inp.equalsIgnoreCase("quit") ) {
     		JOptionPane.showMessageDialog(null, "TRAPPED is now closing. Thanks for playing.\n- Kurt de Leon & Brian Guadalupe");
     		System.exit(0);
+		} else if  ( inp.equalsIgnoreCase("save") ) {
+			cave.Save();
 		} else {
 			if (cave.getSessionInfo() == null) { // not registered
 				String[] sp = inp.split("\\s+");
@@ -229,7 +236,6 @@ public class TrappedFrame extends JFrame {
     }
     
     class EnterListener implements KeyListener {
-    	
     	@Override
     	public void keyPressed(KeyEvent ke) {
     		if (ke.getKeyCode() == KeyEvent.VK_ENTER) {

@@ -1,0 +1,134 @@
+11
+chamber.Chamber2 true 
+hasAccessed
+true
+hasExplored
+true
+hasInvestigated
+true
+VINES
+3
+WHITE_MUSHROOM
+0
+---
+chamber.Chamber7 true 
+hasAccessed
+true
+hasExplored
+true
+CLAY_POT
+0
+JADE
+0
+SHARP_ROCK
+1
+---
+chamber.Chamber9 true 
+hasAccessed
+true
+hasExplored
+true
+VINES
+2
+LEAVES
+0
+---
+chamber.Chamber1 true 
+hasAccessed
+true
+hasExplored
+true
+timesPlayerPouredWater
+4
+RATIONS
+0
+BANDAGES
+1
+JADE
+1
+---
+chamber.Chamber5 true 
+hasAccessed
+false
+hasPlayed
+false
+n1
+0
+n2
+0
+ans
+0
+timeLeft
+5
+t
+null
+---
+chamber.Chamber4 true 
+hasAccessed
+true
+hasExplored
+true
+BROKEN_BOAT
+0
+WATER
+1
+---
+chamber.Chamber11 false
+---
+chamber.Chamber3 true 
+hasAccessed
+true
+hasExplored
+true
+hasUsedStickySubstance
+false
+hasTriedToTakePoop
+0
+hasTriedThrowing
+false
+COCKROACH
+1
+POOP
+1
+---
+chamber.Chamber6 true 
+hasAccessed
+false
+hasExplored
+false
+BERRY
+3
+---
+chamber.Chamber8 false
+---
+chamber.Chamber10 false
+---
+chamber.Chamber1 100 80
+RATIONS
+0
+BANDAGES
+0
+JADE
+1
+VINES
+0
+WHITE_MUSHROOM
+1
+BERRY
+0
+SHARP_ROCK
+0
+CLAY_POT
+1
+WATER
+0
+COCKROACH
+0
+POOP
+0
+BROKEN_BOAT
+1
+BOAT
+0
+LEAVES
+5

@@ -8,7 +8,8 @@ import java.util.Random;
 import annotation.Chamber;
 import annotation.Command;
 import annotation.Direction;
-import item.Item;
+
+import item.*;
 
 @Chamber
 public class Chamber3 extends BaseChamber implements ChamberBehavior {
@@ -18,13 +19,8 @@ public class Chamber3 extends BaseChamber implements ChamberBehavior {
 	private int hasTriedToTakePoop = 0;
 	private boolean hasTriedThrowing = false;
 	
-	private Item COCKROACH = new Item( new String[] {"cockroach", "insect"}, 
-			1, false, "COCKROACH (1) acquired.", "", 
-			"You have already taken the dead COCKROACH earlier. Why did you take it again?" );
-	
-	private Item POOP = new Item( new String[] {"poop", "shit", "feces"}, 
-			1, false, "AAAaaaAAAAaaA\nPOOP (1) acquired.", "", 
-			"WHY DID YOU EVEN TAKE IT" );
+	private Item COCKROACH = new Cockroach(1);
+	private Item POOP = new Poop(1);
 	
 	@Direction(direction="north", accessible=true, accessMessage="")
 	private Chamber6 north;
@@ -220,5 +216,10 @@ public class Chamber3 extends BaseChamber implements ChamberBehavior {
 		}
 
 		return super.Take(item);
+	}
+	
+	@Override
+	public String SaveRoomData() {
+		return super.SaveRoomData();
 	}
 }

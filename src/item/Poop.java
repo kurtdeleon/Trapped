@@ -12,6 +12,15 @@ public class Poop extends Item {
 				"It's in your stomach.");
 	}
 	
+	public Poop(int stock) {
+		super( new String[] {"poop", "shit", "feces"}, 
+			stock, 
+			false,
+			"AAAaaaAAAAaaA\nPOOP (" + stock + ") acquired.",
+			"", 
+			"WHY DID YOU EVEN TAKE IT" );
+	}
+	
 	public void doEffect() {
 		GameState.PLAYER_DEAD = true;
 	}

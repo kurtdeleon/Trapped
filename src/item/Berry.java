@@ -10,6 +10,15 @@ public class Berry extends Item {
 			"You ran out of berries." );
 	}
 	
+	public Berry(int stock) {
+		super( new String[] {"berry", "berries", "strawberries", "fruit"}, 
+			stock, 
+			false, 
+			"BERRY (" + stock + ") acquired.", 
+			"", 
+			"You already picked the berries earlier." );
+	}
+	
 	public void doEffect() {
 		player.Status.AddHunger(30);
 	}

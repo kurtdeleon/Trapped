@@ -3,9 +3,12 @@ package player;
 public class Status {
 	private static int health = 40;
 	private static int hunger = 80;
+	private static String currentChamber = "chamber.Chamber1";
 	
 	public static int GetHealth() { return health; }
 	public static int GetHunger() { return hunger; }
+	public static void SetHealth(int newHealth) { health = newHealth; }
+	public static void SetHunger(int newHunger) { hunger = newHunger; }
 	
 	public static void AddHunger(int num)
 	{
@@ -43,5 +46,15 @@ public class Status {
 			health = 0;
 			chamber.GameState.PLAYER_DEAD = true;
 		}
+	}
+	
+	public static String GetCurrentChamber() 
+	{
+		return currentChamber;
+	}
+	
+	public static void SetCurrentChamber( String currentChamber ) 
+	{
+		Status.currentChamber = currentChamber;
 	}
 }

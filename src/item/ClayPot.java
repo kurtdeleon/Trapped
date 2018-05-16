@@ -10,4 +10,13 @@ public class ClayPot extends Item {
 				"", 
 				"");
 	}
+
+	public ClayPot(int stock) {
+		super( new String[] {"clay pot", "pot", "pail", "container"}, 
+			stock, 
+			false, 
+			"CLAY POT (" + stock + ") acquired.", 
+			"", 
+			"You took the clay pot earlier, remember?" );
+	}
 }

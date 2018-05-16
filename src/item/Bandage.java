@@ -11,6 +11,16 @@ public class Bandage extends Item {
 				"Seems like you've run out of bandages... damn." );
 	}
 	
+	public Bandage ( int stock )
+	{
+		super(new String[] {"bandages", "bandage", "medicine"}, 
+				stock, 
+				false, 
+				"BANDAGES (" + stock + ") acquired.", 
+				"", 
+				"You have already taken the BANDAGES earlier." );
+	}
+	
 	public void doEffect() {
 		player.Status.AddHunger(80);
 	}

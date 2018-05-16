@@ -10,6 +10,15 @@ public class Leaf extends Item {
 				"You don't have extra leaves anymore.");
 	}
 	
+	public Leaf(int stock) {
+		super( new String[] {"leaf", "leaves"}, 
+			stock, 
+			false, 
+			"LEAVES (" + stock + ") acquired.", 
+			"", 
+			"There are no more leaves." );
+	}
+	
 	public void doEffect(Item inventoryItem) {
 		player.Status.AddHealth(10);
 	}

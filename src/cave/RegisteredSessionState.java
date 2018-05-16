@@ -20,6 +20,5 @@ public class RegisteredSessionState implements SessionState {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
+
 }

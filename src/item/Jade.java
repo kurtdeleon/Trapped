@@ -10,4 +10,14 @@ public class Jade extends Item {
 			"", 
 			"" );
 	}
+
+	public Jade( int stock )
+	{
+		super( new String[] {"jade", "jade piece"}, 
+			stock, 
+			false, 
+			"JADE (" + stock + ") acquired.", 
+			"", 
+			"You have already taken the JADE you found.");
+	}
 }
