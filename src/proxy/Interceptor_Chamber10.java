@@ -14,13 +14,13 @@ import annotation.Interceptor;
 public class Interceptor_Chamber10 {
 	
 	// mini game variables
-	private static Timer t;
-	private static int timeLeft = 10;
-	private static boolean allCorrect = true;
+	//private static Timer t;
+	//private static int timeLeft = 10;
+	//private static boolean allCorrect = true;
 	
 	public static boolean canEnter()
 	{
-		HashMap<String, String> riddles = new HashMap<String, String>();
+		/*HashMap<String, String> riddles = new HashMap<String, String>();
 		riddles.put("Feed me and I will live, but give me a drink and I will die.\n\nWhat am I?", "fire");
 		riddles.put("I have hundreds of legs but I can only lean;\nYou make me feel dirty so you feel clean.\n\nWhat am I?", "broom");
 		riddles.put("I always run but never walk,\nOften murmur but never talk,\nHave a bed but never sleep,\nHave a mouth but never eat.\n\nWhat am I?", "river");
@@ -63,8 +63,9 @@ public class Interceptor_Chamber10 {
 				allCorrect = false;
 			}
 			if (!allCorrect) break;
-		}
-		return allCorrect;
+		}*/
+		
+		return true;
 	}
 	
 	public static String enterMessage()

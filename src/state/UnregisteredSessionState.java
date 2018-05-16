@@ -1,4 +1,4 @@
-package cave;
+package state;
 
 public class UnregisteredSessionState implements SessionState {
 	public UnregisteredSessionState() {

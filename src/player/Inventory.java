@@ -78,22 +78,4 @@ public class Inventory {
     	
     	return sw.toString();
 	}
-	
-	/* Tester */
-	public static void main(String[] args) throws Exception {
-		String item = "boat";
-		for ( Field fld : player.Inventory.class.getDeclaredFields() )
-    	{
-			if ( fld.getType().equals(Item.class) ) {
-				Item tmp = (Item) fld.get(null);
-				System.out.println("---");
-	    		System.out.println(tmp.getClass().getSuperclass().getDeclaredMethod("GetMainItemName").invoke(tmp));
-	    		try {
-	    			System.out.println(fld.get(null).getClass().getDeclaredMethod("doEffect"));
-	    		} catch (NoSuchMethodException e) {
-	    			System.out.println("no effects");
-	    		}
-			}
-    	}
-	}
 }

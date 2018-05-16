@@ -8,6 +8,9 @@ import java.lang.reflect.*;
 
 import cave.CaveMaker;
 import chamber.ChamberBehavior;
+import inputmode.CommandLine;
+import inputmode.InputMode;
+import inputmode.ReadFromFile;
 import player.Status;
 
 public class TrappedFrame extends JFrame {
@@ -24,6 +27,13 @@ public class TrappedFrame extends JFrame {
     
     CaveMaker cave;
     boolean hasLoaded;
+    
+    private InputMode im;
+    
+    public TrappedFrame getTrappedFrame()
+    {
+    	return this;
+    }
 
     public TrappedFrame() throws Exception {
         layoutFrame();
@@ -32,6 +42,7 @@ public class TrappedFrame extends JFrame {
         cave = new CaveMaker();
 		cave.Load();
 		updateAll(cave);
+		im = new CommandLine( getTrappedFrame() );
     }
     
     public void updateAll(CaveMaker cv) throws Exception {
@@ -68,8 +79,8 @@ public class TrappedFrame extends JFrame {
     	}
     }
 
-    public void sendInput(String inputCmd) throws Exception {
-    	String inp = input.getText();
+    public void sendInput(String inp) throws Exception {
+    	//String inp = input.getText();
     	if ( inp.equalsIgnoreCase("quit") ) {
     		JOptionPane.showMessageDialog(null, "TRAPPED is now closing. Thanks for playing.\n- Kurt de Leon & Brian Guadalupe");
     		System.exit(0);
@@ -82,6 +93,9 @@ public class TrappedFrame extends JFrame {
 				if (sp[0].equals("register")) {
 					cave.register(sp[1]);
 					updateAll(cave);
+				} else if (sp[0].equals("run") && im instanceof CommandLine ) {
+					im = new ReadFromFile( getTrappedFrame() );
+					im.read(sp[1]);
 				} else {
 					updateOutput("Can't do that yet, REGISTER first!");
 				}
@@ -103,7 +117,7 @@ public class TrappedFrame extends JFrame {
 					updateAll(cave);
 				}
 			}
-		}
+		}    	
     }
 
     public void updateTimerBar(String newText) {
@@ -260,7 +274,7 @@ public class TrappedFrame extends JFrame {
         public void actionPerformed(ActionEvent ae) {
             String inp = input.getText();
             try {
-				sendInput(inp);
+            	im.read(inp);
 				input.setText("");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

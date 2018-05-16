@@ -1,0 +1,59 @@
+register Finishboi
+explore
+take rations
+take bandages
+take jade
+go west
+investigate
+go west
+explore
+take clay pot
+take jade
+take sharp rock
+go east
+cut vines
+go north
+explore
+go east
+explore
+take broken boat
+take water
+attach rope
+go south
+pour water
+go west
+go north
+fix broken boat
+go east
+take water
+go south
+pour water
+go west
+go north
+go east
+take water
+go south
+pour water
+go west
+go north
+go east
+take water
+go south
+pour water
+go east
+explore
+cut vines
+take leaf
+go west
+go west
+go north
+go east
+go east
+go south
+crawl
+crawl
+crawl
+crawl
+go west
+rest
+quit

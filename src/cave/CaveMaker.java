@@ -20,6 +20,9 @@ import net.bytebuddy.dynamic.DynamicType.Unloaded;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.matcher.ElementMatchers;
 import proxy.EnterCondition;
+import state.RegisteredSessionState;
+import state.SessionState;
+import state.UnregisteredSessionState;
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner;
 import io.github.lukehutch.fastclasspathscanner.scanner.ScanResult;
 
@@ -196,6 +199,7 @@ public class CaveMaker {
 	public void Save() {
 		cm.SaveData( chamberMap, getSessionInfo() );
 	}
+	
 	
 	public String Move(String direction)
 	{

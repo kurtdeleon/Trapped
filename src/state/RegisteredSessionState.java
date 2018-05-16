@@ -1,4 +1,4 @@
-package cave;
+package state;
 
 public class RegisteredSessionState implements SessionState {
 	String playerName;

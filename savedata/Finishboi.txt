@@ -1,0 +1,130 @@
+11
+chamber.Chamber7 true 
+hasAccessed
+false
+hasExplored
+false
+CLAY_POT
+1
+JADE
+1
+SHARP_ROCK
+1
+---
+chamber.Chamber1 true 
+hasAccessed
+false
+hasExplored
+false
+timesPlayerPouredWater
+0
+RATIONS
+1
+BANDAGES
+1
+JADE
+1
+---
+chamber.Chamber10 false
+---
+chamber.Chamber3 true 
+hasAccessed
+false
+hasExplored
+false
+hasUsedStickySubstance
+false
+hasTriedToTakePoop
+0
+hasTriedThrowing
+false
+COCKROACH
+1
+POOP
+1
+---
+chamber.Chamber8 false
+---
+chamber.Chamber9 false
+---
+chamber.Chamber4 true 
+hasAccessed
+false
+hasExplored
+false
+BROKEN_BOAT
+1
+WATER
+1
+---
+chamber.Chamber11 false
+---
+chamber.Chamber6 true 
+hasAccessed
+false
+hasExplored
+false
+BERRY
+3
+---
+chamber.Chamber2 true 
+hasAccessed
+false
+hasExplored
+false
+hasInvestigated
+false
+VINES
+3
+WHITE_MUSHROOM
+1
+---
+chamber.Chamber5 true 
+hasAccessed
+false
+hasPlayed
+false
+gameStarted
+false
+genieSummoned
+false
+rand
+java.util.Random@2d7ab69
+n1
+0
+n2
+0
+ans
+0
+count
+0
+---
+chamber.Chamber1 40 80
+RATIONS
+0
+BANDAGES
+0
+JADE
+0
+VINES
+0
+WHITE_MUSHROOM
+0
+BERRY
+0
+SHARP_ROCK
+0
+CLAY_POT
+0
+WATER
+0
+COCKROACH
+0
+POOP
+0
+BROKEN_BOAT
+0
+BOAT
+0
+LEAVES
+0

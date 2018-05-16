@@ -1,0 +1,5 @@
+register kurt
+explore
+go west
+go east
+go west
